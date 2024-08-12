@@ -4,12 +4,17 @@
   "private": true,
   "homepage": "https://kesobyte.github.io/expensetracker/",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-redux": "^9.1.2",
+    "react-router-dom": "^6.26.0",
     "react-scripts": "5.0.1",
+    "redux-persist": "^6.0.0",
     "web-vitals": "^2.1.3"
   },
   "scripts": {
@@ -36,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.9"
   }
 }

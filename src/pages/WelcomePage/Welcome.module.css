@@ -1,0 +1,114 @@
+.container {
+  max-width: 575px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.textTop {
+  color: rgba(250, 250, 250, 0.4);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 2.8px;
+}
+.textHeader {
+  color: #fafafa;
+  font-size: 56px;
+  font-weight: 400;
+  letter-spacing: -1.12px;
+  margin-top: 10px;
+}
+.textHeader span {
+  color: var(--springgreen);
+  text-decoration-line: underline;
+}
+.textDesc {
+  color: rgba(250, 250, 250, 0.4);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: -0.32px;
+  margin-top: 20px;
+}
+.buttons {
+  display: flex;
+  margin-top: 40px;
+  gap: 20px;
+}
+.btnSignUp {
+  display: flex;
+  padding: 14px 44px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 40px;
+  background: var(--springgreen);
+  border: none;
+  color: var(--black);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+}
+.btnSignUp:hover {
+  background-color: var(--mediumseagreen);
+}
+.btnSignIn {
+  display: flex;
+  padding: 14px 44px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 40px;
+  background-color: transparent;
+  border: 1px solid rgba(250, 250, 250, 0.4);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+}
+.btnSignIn:hover {
+  border-color: var(--springgreen);
+}
+.avatars {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+.avatars img {
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  border: 2px var(--black) solid;
+  overflow: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.fleur {
+  position: absolute;
+  z-index: 30;
+}
+.ethan {
+  position: absolute;
+  z-index: 20;
+  left: 42px;
+}
+.amanda {
+  position: absolute;
+  z-index: 10;
+  left: 84px;
+}
+.textUsers {
+  color: #fafafa;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.56px;
+}
+.textBottom {
+  color: rgba(250, 250, 250, 0.4);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.32px;
+}
+.totalUsers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 150px;
+}

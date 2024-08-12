@@ -1,0 +1,16 @@
+.icon {
+  width: 27px;
+  height: 16px;
+}
+.logoText {
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  text-transform: uppercase;
+}
+.logo {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
