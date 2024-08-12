@@ -87,12 +87,12 @@
 .ethan {
   position: absolute;
   z-index: 20;
-  left: 42px;
+  left: 40px;
 }
 .amanda {
   position: absolute;
   z-index: 10;
-  left: 84px;
+  left: 80px;
 }
 .textUsers {
   color: #fafafa;
@@ -110,5 +110,5 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-left: 150px;
+  padding-left: 155px;
 }
