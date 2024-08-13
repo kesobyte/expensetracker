@@ -31,7 +31,7 @@ export const AuthForm = ({
           {fields.map((field, index) => (
             <div key={index} className="relative">
               <input
-                className="w-[399px] inline-flex py-3 pr-[44px] px-4 items-center gap-[10px] rounded-xl border border-[#fafafa33] bg-transparent text-white text-[16px] leading-[24px] font-normal hover:border-[springgreen] placeholder:text-[#fafafa66] ease-in duration-200"
+                className="w-[399px] inline-flex py-3 pr-[44px] px-4 items-center gap-[10px] rounded-xl border border-[#fafafa33] bg-transparent text-white text-[16px] leading-[24px] font-normal hover:border-[springgreen] placeholder:text-[#fafafa66] ease-in duration-200 focus:outline-none focus:border-springgreen focus:ring-1 focus:ring-springgreen"
                 type={
                   field.type === 'password' && showPassword
                     ? 'text'
