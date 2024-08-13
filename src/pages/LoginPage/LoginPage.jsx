@@ -23,7 +23,7 @@ export const LoginPage = () => {
           fields={fields}
           buttonText="Sign In"
           footerText="Don't have an account?"
-          footerLink="/register"
+          footerLink="./register"
           footerLinkText="Sign Up"
         />
       </div>

@@ -24,7 +24,7 @@ export const RegisterPage = () => {
           fields={fields}
           buttonText="Sign Up"
           footerText="Already have an account?"
-          footerLink="/login"
+          footerLink="./login"
           footerLinkText="Sign In"
         />
       </div>
