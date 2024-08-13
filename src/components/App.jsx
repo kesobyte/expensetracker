@@ -1,4 +1,3 @@
-import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
 import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import { Logo } from './Logo/Logo';
