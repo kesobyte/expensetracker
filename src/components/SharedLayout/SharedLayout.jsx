@@ -10,7 +10,6 @@ export const SharedLayout = () => {
       <Header />
       <div className={css.container}>
         <BgImageWrapper />
-        <WelcomePage />
       </div>
     </>
   );

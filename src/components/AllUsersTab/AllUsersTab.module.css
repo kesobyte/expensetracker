@@ -1,0 +1,40 @@
+.avatars {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+.avatars img {
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  border: 2px var(--black) solid;
+  overflow: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.fleur {
+  position: absolute;
+  z-index: 30;
+}
+.ethan {
+  position: absolute;
+  z-index: 20;
+  left: 40px;
+}
+.amanda {
+  position: absolute;
+  z-index: 10;
+  left: 80px;
+}
+.textUsers {
+  color: #fafafa;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.56px;
+}
+
+.totalUsers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 155px;
+}
