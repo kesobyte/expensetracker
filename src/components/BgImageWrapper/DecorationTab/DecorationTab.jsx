@@ -1,6 +1,6 @@
 import React from 'react';
 import css from './DecorationTab.module.css';
-import arrowUp from '../../../images/icons.svg';
+import iconSvg from '../../../images/icons.svg';
 
 export const DecorationTab = () => {
   return (
@@ -8,7 +8,7 @@ export const DecorationTab = () => {
       <div className={css.wrapper}>
         <div className={css.icon}>
           <svg width="15" height="17">
-            <use href={`${arrowUp}#arrow-up`} />
+            <use href={`${iconSvg}#arrow-up`} />
           </svg>
         </div>
 
