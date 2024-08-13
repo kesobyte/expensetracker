@@ -1,4 +1,5 @@
 import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
+import { RegisterPage } from 'pages/RegisterPage/RegisterPage';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import { Logo } from './Logo/Logo';
 
@@ -10,7 +11,8 @@ export const App = () => {
       </div>
       <div className="flex gap-[54px] justify-center m-w-[1440px] mt-[74px]">
         <SharedLayout />
-        <WelcomePage />
+        <RegisterPage />
+        {/* <WelcomePage /> */}
       </div>
     </>
   );
