@@ -7,7 +7,7 @@ import { Header } from './Header/Header';
 import { useState } from 'react';
 
 export const App = () => {
-  const [isLoggedIn, _setIsLoggedIn] = useState(true);
+  const [isLoggedIn] = useState(true);
 
   return (
     <>
