@@ -11,8 +11,8 @@ export const App = () => {
 
   return (
     <>
-      <div className="max-w-[1440px] mx-auto">
-        <div className="mt-[32px]">
+      <div className="mx-auto">
+        <div>
           <Header isLoggedIn={isLoggedIn} />
         </div>
         <div className="flex gap-[54px] justify-center mt-[74px]">

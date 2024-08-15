@@ -6,11 +6,23 @@ import { UserBarBtn } from 'components/UserBarBtn/UserBarBtn';
 export const Header = ({ isLoggedIn }) => {
   return (
     <div
-      className={`flex ${isLoggedIn ? 'justify-between' : 'justify-center'}`}
+      className={`${
+        isLoggedIn ? 'border-b-[1px] border-[#fafafa1a]' : ''
+      } w-full`}
     >
-      <Logo />
-      {isLoggedIn && <TransactionsHistoryNav />}
-      {isLoggedIn && <UserBarBtn />}
+      {isLoggedIn ? (
+        <div className="max-w-[1440px] w-full mx-auto flex items-center justify-between py-[18px] px-[17px]">
+          <Logo />
+          <TransactionsHistoryNav />
+          <div className="cursor-pointer">
+            <UserBarBtn />
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-[1440px] w-full mx-auto flex items-center justify-center mt-[32px]">
+          <Logo />
+        </div>
+      )}
     </div>
   );
 };
