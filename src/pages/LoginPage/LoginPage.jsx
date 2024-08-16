@@ -25,6 +25,7 @@ export const LoginPage = () => {
           footerText="Don't have an account?"
           footerLink="./register"
           footerLinkText="Sign Up"
+          isLogin={true}
         />
       </div>
     </div>

@@ -26,6 +26,7 @@ export const RegisterPage = () => {
           footerText="Already have an account?"
           footerLink="./login"
           footerLinkText="Sign In"
+          isLogin={false}
         />
       </div>
     </div>

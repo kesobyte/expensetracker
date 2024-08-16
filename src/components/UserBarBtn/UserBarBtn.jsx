@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import tempProfile from '../../images/ethan-valdez.png';
+import tempProfile from '../../images/profile-pic.png';
 import svg from '../../images/icons.svg';
 import { UserPanel } from './UserPanel/UserPanel';
+import { useAuth } from '../../hooks/useAuth'; // Adjust the path as necessary
 
 export const UserBarBtn = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const panelRef = useRef(null);
+  const { user } = useAuth(); // Get the current user
 
   // Toggle the UserPanel and Chevron Icon
   const togglePanel = () => {
@@ -38,7 +40,7 @@ export const UserBarBtn = () => {
           alt="temporary profile"
         />
         <p className="text-[#fafafa66] text-[16px] font-normal tracking-[-0.32px]">
-          Alex Rybachok
+          {user.name} {/* Display the current user's name */}
         </p>
         <svg width={20} height={20}>
           <use

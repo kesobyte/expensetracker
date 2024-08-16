@@ -2,8 +2,11 @@ import React from 'react';
 import { Logo } from 'components/Logo/Logo';
 import { TransactionsHistoryNav } from 'components/TransactionsHistoryNav/TransactionsHistoryNav';
 import { UserBarBtn } from 'components/UserBarBtn/UserBarBtn';
+import { useAuth } from 'hooks/useAuth';
 
-export const Header = ({ isLoggedIn }) => {
+export const Header = () => {
+  const { isLoggedIn } = useAuth(true);
+
   return (
     <div
       className={`${

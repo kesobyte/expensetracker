@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import iconSvg from '../../images/icons.svg';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { login, register } from '../../redux/auth/authOperation';
 
 export const AuthForm = ({
   fields,
@@ -8,15 +10,19 @@ export const AuthForm = ({
   footerText,
   footerLink,
   footerLinkText,
+  isLogin, // To determine if for /login or /register
 }) => {
   const [formData, setFormData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
   // Password Show Toggle
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  // Form Data for Login or Register
   const handleChange = (e, field) => {
     setFormData({
       ...formData,
@@ -24,9 +30,26 @@ export const AuthForm = ({
     });
   };
 
+  // Asynchronous Form Submission
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      if (isLogin) {
+        await dispatch(login(formData)).unwrap();
+      } else {
+        await dispatch(register(formData)).unwrap();
+      }
+      // Handle post-submission logic, e.g., redirecting or clearing the form
+    } catch (err) {
+      setError(err);
+    }
+  };
+
   return (
     <div>
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-[24px]">
           {fields.map((field, index) => (
             <div key={index} className="relative">
@@ -62,7 +85,11 @@ export const AuthForm = ({
             </div>
           ))}
         </div>
-        <button className="flex justify-center items-center gap-[10px] px-[44px] py-[14px] rounded-[40px] bg-springgreen text-black text-[16px] font-normal tracking-[-0.32px] hover:bg-mediumseagreen mt-[60px] ease-in duration-200">
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        <button
+          type="submit"
+          className="flex justify-center items-center gap-[10px] px-[44px] py-[14px] rounded-[40px] bg-springgreen text-black text-[16px] font-normal tracking-[-0.32px] hover:bg-mediumseagreen mt-[60px] ease-in duration-200"
+        >
           {buttonText}
         </button>
         <div className="text-[12px] font-normal leading-[-18px] mt-[20px]">
@@ -93,4 +120,5 @@ AuthForm.propTypes = {
   footerText: PropTypes.string.isRequired,
   footerLink: PropTypes.string.isRequired,
   footerLinkText: PropTypes.string.isRequired,
+  isLogin: PropTypes.bool.isRequired,
 };
