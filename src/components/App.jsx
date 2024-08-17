@@ -91,6 +91,17 @@ export const App = () => {
                 />
               }
             />
+
+            {/* Routing for non-existent pages */}
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoute
+                  component={MainTransactionsPage}
+                  redirectTo="/"
+                />
+              }
+            />
           </Routes>
         </div>
       </div>

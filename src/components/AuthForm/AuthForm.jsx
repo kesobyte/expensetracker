@@ -3,6 +3,8 @@ import iconSvg from '../../images/icons.svg';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { login, register } from '../../redux/auth/authOperation';
+import { useAuth } from 'hooks/useAuth';
+import { ButtonLoader } from 'components/ButtonLoader/ButtonLoader';
 
 export const AuthForm = ({
   fields,
@@ -12,6 +14,7 @@ export const AuthForm = ({
   footerLinkText,
   isLogin, // To determine if for /login or /register
 }) => {
+  const { isLoading } = useAuth();
   const [formData, setFormData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
@@ -30,7 +33,7 @@ export const AuthForm = ({
     });
   };
 
-  // Asynchronous Form Submission
+  // Handle Submit using Async
   const handleSubmit = async e => {
     e.preventDefault();
     setError(null);
@@ -41,9 +44,14 @@ export const AuthForm = ({
       } else {
         await dispatch(register(formData)).unwrap();
       }
-      // Handle post-submission logic, e.g., redirecting or clearing the form
     } catch (err) {
-      setError(err);
+      console.log(isLoading);
+      if (err.status === 409) {
+        setError('Account already exists');
+        return;
+      } else if (err.status === 400) {
+        setError('Enter a valid password');
+      }
     }
   };
 
@@ -64,6 +72,7 @@ export const AuthForm = ({
                 value={formData[field.name] || ''}
                 onChange={e => handleChange(e, field.name)}
                 id={field.name}
+                required
               />
               {field.type === 'password' && (
                 <button
@@ -85,12 +94,18 @@ export const AuthForm = ({
             </div>
           ))}
         </div>
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        <div className="absolute">
+          {' '}
+          {error && (
+            <p className="text-red-500 text-[10px] mt-2 ml-[18px]">{error}</p>
+          )}
+        </div>
+
         <button
           type="submit"
-          className="flex justify-center items-center gap-[10px] px-[44px] py-[14px] rounded-[40px] bg-springgreen text-black text-[16px] font-normal tracking-[-0.32px] hover:bg-mediumseagreen mt-[60px] ease-in duration-200"
+          className="flex justify-center items-center gap-[10px] px-[44px] py-[14px] rounded-[40px] bg-springgreen text-black text-[16px] font-normal tracking-[-0.32px] hover:bg-mediumseagreen mt-[60px] ease-in duration-200 max-w-[145px] w-[100%] max-h-[47px]"
         >
-          {buttonText}
+          {isLoading ? <ButtonLoader /> : buttonText}
         </button>
         <div className="text-[12px] font-normal leading-[-18px] mt-[20px]">
           <p className="text-[#fafafa60]">

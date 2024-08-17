@@ -26,7 +26,9 @@ export const register = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      const status = error.response.status;
+      const message = error.message;
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
