@@ -10,7 +10,8 @@ import { Header } from './Header/Header';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
 import { useAuth } from 'hooks/useAuth';
-import { refreshUser } from '../redux/auth/authOperation'; // Assuming refreshUser fetches current user data
+import { refreshUser } from '../redux/auth/authOperation';
+import { Loader } from './Loader/Loader';
 
 export const App = () => {
   const { isLoggedIn, token } = useAuth();
@@ -32,8 +33,7 @@ export const App = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-white text-[24px]">Waiting Game :P</p>
-        {/* You can replace this with a spinner or a more elaborate splash screen */}
+        <Loader />
       </div>
     );
   }

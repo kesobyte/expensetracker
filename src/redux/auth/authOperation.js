@@ -14,10 +14,7 @@ const clearAuthHeader = () => {
   axios.defaults.headers.common.Authorization = '';
 };
 
-/*
- * POST @ /auth/register
- * body: { name, email, password }
- */
+// Register
 export const register = createAsyncThunk(
   'auth/register',
   async ({ name, email, password }, thunkAPI) => {
@@ -27,7 +24,6 @@ export const register = createAsyncThunk(
         email,
         password,
       });
-      // Assuming the API response contains the user data without tokens
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -35,10 +31,7 @@ export const register = createAsyncThunk(
   }
 );
 
-/*
- * POST @ /auth/login
- * body: { email, password }
- */
+// Login
 export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, thunkAPI) => {
@@ -48,8 +41,6 @@ export const login = createAsyncThunk(
 
       // Store the tokens and set the authorization header
       setAuthHeader(accessToken);
-      // You might want to store refreshToken and sid in the state as well for token refresh handling
-
       return { user, accessToken, refreshToken, sid };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -57,25 +48,17 @@ export const login = createAsyncThunk(
   }
 );
 
-/*
- * GET @ /auth/logout
- * headers: Authorization: Bearer token
- */
+// Logout
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await axios.get('/auth/logout');
-    // After a successful logout, remove the token from the HTTP header
     clearAuthHeader();
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
-/*
- * POST @ /auth/refresh
- * headers: Authorization: Bearer {refreshToken}
- * body: { sid: "session_id" }
- */
+// Auth Refresh Token
 export const refreshToken = createAsyncThunk(
   'auth/refresh',
   async ({ sid }, thunkAPI) => {
@@ -108,10 +91,7 @@ export const refreshToken = createAsyncThunk(
   }
 );
 
-/*
- * GET @ /users/current
- * headers: Authorization: Bearer token
- */
+// Auth Refresh User
 export const refreshUser = createAsyncThunk(
   'auth/refreshUser',
   async (_, thunkAPI) => {

@@ -22,7 +22,7 @@ const authSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(register.fulfilled, (state, action) => {
-        state.user = action.payload; // The response from register does not include tokens, only user data
+        state.user = action.payload;
         state.isLoggedIn = true;
       })
       .addCase(login.fulfilled, (state, action) => {
@@ -32,7 +32,7 @@ const authSlice = createSlice({
         state.sid = action.payload.sid;
         state.isLoggedIn = true;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, state => {
         state.user = { name: null, email: null };
         state.token = null;
         state.refreshToken = null;
