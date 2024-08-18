@@ -14,7 +14,7 @@ export const Header = () => {
       } w-full`}
     >
       {isLoggedIn ? (
-        <div className="max-w-[1440px] w-full mx-auto flex items-center justify-between py-[18px] px-[17px]">
+        <div className="max-w-[1240px] w-full mx-auto flex items-center justify-between py-[18px]">
           <Logo />
           <TransactionsHistoryNav />
           <div className="cursor-pointer">
