@@ -45,7 +45,7 @@ export const App = () => {
         <div
           className={`flex ${
             isLoggedIn
-              ? 'justify-center mt-[74px]'
+              ? 'justify-center mt-[59px]'
               : 'gap-[54px] justify-center mt-[74px]'
           }`}
         >
