@@ -19,10 +19,15 @@ export const AuthForm = ({
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+  const [isValidPassword, setIsValidPassword] = useState(null);
 
-  // Password Show Toggle
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  // Handle Password Validation
+  const validatePassword = (e, field) => {
+    if (field === 'password') {
+      const isValid = e.target.value.length >= 8;
+      setIsValidPassword(isValid);
+      setError(null);
+    }
   };
 
   // Form Data for Login or Register
@@ -31,12 +36,24 @@ export const AuthForm = ({
       ...formData,
       [field]: e.target.value,
     });
+    validatePassword(e, field);
+  };
+
+  // Password Show Toggle
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   // Handle Submit using Async
   const handleSubmit = async e => {
     e.preventDefault();
     setError(null);
+    setIsValidPassword(null);
+
+    if (!isValidPassword) {
+      setError('Password must be at least 8 characters long.');
+      return;
+    }
 
     try {
       if (isLogin) {
@@ -45,14 +62,21 @@ export const AuthForm = ({
         await dispatch(register(formData)).unwrap();
       }
     } catch (err) {
-      console.log(isLoading);
       if (err.status === 409) {
         setError('Account already exists');
-        return;
-      } else if (err.status === 400) {
-        setError('Enter a valid password');
+      } else if (err.status === 403) {
+        setError('Email address does not exist or the password is incorrect');
       }
+      clearPasswordField();
     }
+  };
+
+  // Function to clear the password field in the formData
+  const clearPasswordField = () => {
+    setFormData(prevData => ({
+      ...prevData,
+      password: '',
+    }));
   };
 
   return (
@@ -62,7 +86,15 @@ export const AuthForm = ({
           {fields.map((field, index) => (
             <div key={index} className="relative">
               <input
-                className="w-[399px] inline-flex py-3 pr-[44px] px-4 items-center gap-[10px] rounded-xl border border-[#fafafa33] bg-transparent text-white text-[16px] leading-[24px] font-normal hover:border-[springgreen] placeholder:text-[#fafafa66] ease-in duration-200 focus:outline-none focus:border-springgreen focus:ring-1 focus:ring-springgreen"
+                className={`w-[399px] inline-flex py-3 pr-[44px] px-4 items-center gap-[10px] rounded-xl border border-[#fafafa33] bg-transparent text-white text-[16px] leading-[24px] font-normal hover:border-[springgreen] placeholder:text-[#fafafa66] ease-in duration-200 focus:outline-none ${
+                  field.type === 'password'
+                    ? isValidPassword === null
+                      ? 'focus:border-springgreen'
+                      : isValidPassword
+                      ? 'focus:border-springgreen'
+                      : 'focus:border-red-500'
+                    : 'focus:border-springgreen'
+                } `}
                 type={
                   field.type === 'password' && showPassword
                     ? 'text'
@@ -94,10 +126,20 @@ export const AuthForm = ({
             </div>
           ))}
         </div>
-        <div className="absolute">
-          {' '}
+        <div className="absolute mt-2">
+          {isValidPassword !== null && !isLogin && (
+            <p
+              className={`text-[10px] ml-[18px] ${
+                isValidPassword ? 'text-springgreen' : 'text-red-500'
+              }`}
+            >
+              {isValidPassword
+                ? 'Password is secure'
+                : 'Enter a valid Password'}
+            </p>
+          )}
           {error && (
-            <p className="text-red-500 text-[10px] mt-2 ml-[18px]">{error}</p>
+            <p className="text-red-500 text-[10px] ml-[18px]">{error}</p>
           )}
         </div>
 

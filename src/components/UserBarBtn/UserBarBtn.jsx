@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import tempProfile from '../../images/profile-pic.png';
 import svg from '../../images/icons.svg';
 import { UserPanel } from './UserPanel/UserPanel';
-import { useAuth } from '../../hooks/useAuth'; // Adjust the path as necessary
+import { useAuth } from '../../hooks/useAuth';
 
 export const UserBarBtn = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -40,7 +40,7 @@ export const UserBarBtn = () => {
           alt="temporary profile"
         />
         <p className="text-[#fafafa66] text-[16px] font-normal tracking-[-0.32px]">
-          {user.name} {/* Display the current user's name */}
+          {user.name}
         </p>
         <svg width={20} height={20}>
           <use

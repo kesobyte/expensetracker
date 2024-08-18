@@ -21,7 +21,7 @@ export const App = () => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       if (token && !isLoggedIn) {
-        await dispatch(refreshUser()); // Dispatch an action to refresh user data
+        await dispatch(refreshUser()).unwrap(); // Dispatch an action to refresh user data
       }
       setIsLoading(false); // Set loading to false after checking auth status
     };
