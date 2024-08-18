@@ -50,3 +50,20 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* Overflow Scroll */
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: springgreen;
+  -webkit-box-shadow: 2 2 2px #feffff;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #0c0d0d;
+  border-radius: 4px;
+}
