@@ -1,7 +1,21 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import icon from '../../images/icons.svg';
 
 export const TransactionForm = () => {
+  const [currentDate, setCurrentDate] = useState('');
+  const [currentTime, setCurrentTime] = useState('');
+
+  useEffect(() => {
+    const now = new Date();
+
+    const date = now.toISOString().split('T')[0];
+    setCurrentDate(date);
+
+    const time = now.toTimeString().split(' ')[0].slice(0, 5);
+    setCurrentTime(time);
+  }, []);
+
   return (
     <form className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-full">
       {/* Type */}
@@ -47,9 +61,11 @@ export const TransactionForm = () => {
           </label>
           <div className="relative">
             <input
+              value={currentDate}
               type="date"
               className="py-[12px] pl-[18px] pr-[100px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
               onClick={e => e.currentTarget.showPicker()}
+              onChange={e => setCurrentDate(e.target.value)}
             />
             <svg className="absolute top-[15px] left-[85%]">
               <use href={`${icon}#calendar-icon`} />
@@ -65,9 +81,11 @@ export const TransactionForm = () => {
           </label>
           <div className="relative">
             <input
+              value={currentTime}
               type="time"
               className="py-[12px] pl-[18px] pr-[130px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
               onClick={e => e.currentTarget.showPicker()}
+              onChange={e => setCurrentTime(e.target.value)}
             />
             <svg className="absolute top-[15px] left-[85%]">
               <use href={`${icon}#clock-icon`} />
@@ -115,7 +133,7 @@ export const TransactionForm = () => {
             Comment
           </label>
           <textarea
-            className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full h-[90px]"
+            className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full h-[90px] resize-none"
             placeholder="Enter comment"
           />
         </div>
