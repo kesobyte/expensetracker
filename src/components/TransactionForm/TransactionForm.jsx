@@ -1,8 +1,9 @@
 import React from 'react';
+import icon from '../../images/icons.svg';
 
 export const TransactionForm = () => {
   return (
-    <form className="bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-full">
+    <form className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-full">
       {/* Type */}
       <div className="flex flex-row text-white gap-[20px] items-center">
         <div className="flex items-center">
@@ -10,11 +11,12 @@ export const TransactionForm = () => {
             type="radio"
             id="expense"
             name="transaction"
-            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] rounded-full checked:bg-[springgreen]  checked:border-solid checked:outline checked:outline-2 checked:outline-[springgreen]"
+            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719]  checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
+            defaultChecked
           />
           <label
             htmlFor="expense"
-            className="ml-[8px] text-[16px] leading-[24px] font-medium"
+            className="ml-[8px] text-[16px] tracking-[-0.32px] font-normal"
           >
             Expense
           </label>
@@ -24,11 +26,11 @@ export const TransactionForm = () => {
             type="radio"
             id="income"
             name="transaction"
-            className="appearance-none h-[16px] w-[16px] border-2 border-[#444] rounded-full checked:bg-[#444] checked:border-[#444] focus:outline-none"
+            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719]  checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
           />
           <label
             htmlFor="income"
-            className="ml-[8px] text-[16px] leading-[24px] font-medium"
+            className="ml-[8px] text-[16px] tracking-[-0.32px] font-normal"
           >
             Income
           </label>
@@ -36,29 +38,93 @@ export const TransactionForm = () => {
       </div>
       {/* Date & Time */}
       <div className="flex flex-row gap-[20px]">
-        <div className="flex flex-col">
-          <label htmlFor="date">Date</label>
-          <input type="date" />
+        <div className="flex flex-col gap-[8px]">
+          <label
+            htmlFor="date"
+            className="text-white text-[16px] tracking-[-0.32px] font-normal "
+          >
+            Date
+          </label>
+          <div className="relative">
+            <input
+              type="date"
+              className="py-[12px] pl-[18px] pr-[100px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
+              onClick={e => e.currentTarget.showPicker()}
+            />
+            <svg className="absolute top-[15px] left-[85%]">
+              <use href={`${icon}#calendar-icon`} />
+            </svg>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="time">Time</label>
-          <input type="time" />
+        <div className="flex flex-col gap-[8px]">
+          <label
+            htmlFor="time"
+            className="text-white text-[16px] tracking-[-0.32px] font-normal"
+          >
+            Time
+          </label>
+          <div className="relative">
+            <input
+              type="time"
+              className="py-[12px] pl-[18px] pr-[130px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
+              onClick={e => e.currentTarget.showPicker()}
+            />
+            <svg className="absolute top-[15px] left-[85%]">
+              <use href={`${icon}#clock-icon`} />
+            </svg>
+          </div>
         </div>
       </div>
-      <div>
-        <div>
-          <label htmlFor="category">Category</label>
-          <input type="text" />
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[8px]">
+          <label
+            htmlFor="category"
+            className="text-white text-[16px] tracking-[-0.32px] font-normal"
+          >
+            Category
+          </label>
+          <input
+            type="text"
+            className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white  hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
+            placeholder="Enter category"
+          />
         </div>
-        <div>
-          <label htmlFor="sum">Sum</label>
-          <input type="number" />
+        <div className="flex flex-col gap-[8px]">
+          <label
+            htmlFor="sum"
+            className="text-white text-[16px] tracking-[-0.32px] font-normal"
+          >
+            Sum
+          </label>
+          <div className="relative">
+            <input
+              type="number"
+              className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white  hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
+              placeholder="Enter sum"
+            />
+            <span className="absolute top-[15px] left-[85%] text-[16px] text-[#fafafa33]">
+              USD
+            </span>
+          </div>
         </div>
-        <div>
-          <label htmlFor="commet">Comment</label>
-          <input type="textarea" />
+        <div className="flex flex-col gap-[8px]">
+          <label
+            htmlFor="comment"
+            className="text-white text-[16px] tracking-[-0.32px] font-normal"
+          >
+            Comment
+          </label>
+          <textarea
+            className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full h-[90px]"
+            placeholder="Enter comment"
+          />
         </div>
-        <button type="submit">Add</button>
+        <button
+          type="submit"
+          className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen max-w-[25%] font-normal leading-none"
+        >
+          Add
+        </button>
       </div>
     </form>
   );
