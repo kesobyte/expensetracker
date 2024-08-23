@@ -67,46 +67,36 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 // Refresh Token
 export const refreshToken = createAsyncThunk(
   'auth/refresh',
-  async ({ sid }, thunkAPI) => {
+  async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const persistedRefreshToken = state.auth.refreshToken;
+    const sid = state.auth.sid; // Ensure SID is retrieved from the state
 
-    if (!persistedRefreshToken) {
-      return thunkAPI.rejectWithValue('Unable to refresh token');
+    if (!persistedRefreshToken || !sid) {
+      return thunkAPI.rejectWithValue(
+        'Unable to refresh token: Missing token or SID'
+      );
     }
 
     try {
+      // Set the refresh token in the Authorization header
       setAuthHeader(persistedRefreshToken);
+
+      // Make the API call to refresh the token
       const response = await axios.post('/auth/refresh', { sid });
+
       const {
         accessToken,
         refreshToken: newRefreshToken,
         sid: newSid,
       } = response.data;
+
+      // Set the new access token in the Authorization header
       setAuthHeader(accessToken);
+
       return { accessToken, refreshToken: newRefreshToken, sid: newSid };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-// Refresh User
-export const refreshUser = createAsyncThunk(
-  'auth/refreshUser',
-  async (_, thunkAPI) => {
-    const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
-
-    if (!persistedToken) {
-      return thunkAPI.rejectWithValue('Unable to fetch user');
-    }
-
-    try {
-      setAuthHeader(persistedToken);
-      const response = await axios.get('/users/current');
-      return response.data;
-    } catch (error) {
+      console.error('Refresh failed:', error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

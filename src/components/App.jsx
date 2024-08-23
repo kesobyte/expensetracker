@@ -10,24 +10,24 @@ import { Header } from './Header/Header';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
 import { useAuth } from 'hooks/useAuth';
-import { refreshUser } from '../redux/auth/authOperation';
+import { refreshToken } from '../redux/auth/authOperation';
 import { Loader } from './Loader/Loader';
 
 export const App = () => {
-  const { isLoggedIn, token } = useAuth();
+  const { isLoggedIn, token, sid } = useAuth(); // Ensure `sid` is destructured here
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       if (token && !isLoggedIn) {
-        await dispatch(refreshUser()).unwrap(); // Dispatch an action to refresh user data
+        await dispatch(refreshToken({ sid })).unwrap();
       }
       setIsLoading(false); // Set loading to false after checking auth status
     };
 
     checkAuthStatus();
-  }, [dispatch, token, isLoggedIn]);
+  }, [dispatch, token, isLoggedIn, sid]); // Include `sid` in the dependency array
 
   // Show a loading spinner or splash screen while checking auth status
   if (isLoading) {

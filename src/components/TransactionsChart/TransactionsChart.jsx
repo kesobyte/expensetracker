@@ -38,7 +38,7 @@ export const TransactionsChart = () => {
               Expenses Category
             </p>
           </div>
-          <Doughnut data={data} options={options} responsive={true} />
+          <Doughnut data={data} options={options} />
           <div className="absolute bottom-[40px] left-[120px] text-white text-[24px] font-bold">
             100%
           </div>
