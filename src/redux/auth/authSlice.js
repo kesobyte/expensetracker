@@ -7,8 +7,8 @@ const initialState = {
   refreshToken: null,
   sid: null,
   isLoggedIn: false,
-  isRefreshing: false,
   isLoading: false,
+  // isRefreshing: false,
 };
 
 const authSlice = createSlice({
@@ -52,21 +52,21 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
       })
       .addCase(refreshToken.pending, state => {
-        state.isRefreshing = true;
+        state.isLoading = true;
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.token = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
         state.sid = action.payload.sid;
         state.isLoggedIn = true;
-        state.isRefreshing = false;
+        state.isLoading = false;
       })
       .addCase(refreshToken.rejected, state => {
         state.token = null;
         state.refreshToken = null;
         state.sid = null;
         state.isLoggedIn = false;
-        state.isRefreshing = false;
+        state.isLoading = false;
       });
   },
 });

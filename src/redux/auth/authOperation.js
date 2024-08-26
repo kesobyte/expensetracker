@@ -45,6 +45,10 @@ export const login = createAsyncThunk(
 
       // Store the tokens and set the authorization header
       setAuthHeader(accessToken);
+
+      // console.log(accessToken);
+      // console.log(sid);
+
       return { user, accessToken, refreshToken, sid };
     } catch (error) {
       const status = error.response.status;
@@ -70,7 +74,7 @@ export const refreshToken = createAsyncThunk(
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const persistedRefreshToken = state.auth.refreshToken;
-    const sid = state.auth.sid; // Ensure SID is retrieved from the state
+    const sid = state.auth.sid;
 
     if (!persistedRefreshToken || !sid) {
       return thunkAPI.rejectWithValue(
