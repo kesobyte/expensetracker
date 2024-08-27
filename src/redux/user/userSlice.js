@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchCurrentUser, updateUser, uploadAvatar, removeAvatar,} from './userOperation';
 
 const initialState = {
-  user: { name: '', email: '', avatar: '', currency: '' },
+  user: '',
   isLoading: false,
   error: null,
 };
 
 const userSlice = createSlice({
-  name: 'profile',
+  name: 'user',
   initialState,
   extraReducers: builder => {
     builder

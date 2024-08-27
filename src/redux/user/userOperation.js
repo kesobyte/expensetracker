@@ -12,7 +12,7 @@ const setAuthHeader = token => {
 
 // Fetch User Profile
 export const fetchCurrentUser = createAsyncThunk(
-  'users/current',
+  'users/fetchUser',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
@@ -33,7 +33,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 // Update User Profile
 export const updateUser = createAsyncThunk(
-  'users/info',
+  'users/updateUser',
   async (userData, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;

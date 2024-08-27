@@ -6,34 +6,44 @@ import {
   removeAvatar,
   fetchCurrentUser,
 } from '../../redux/user/userOperation';
-import {
-  selectUserProfile,
-  selectProfileIsLoading,
-  selectProfileError,
-} from '../../redux/selectors';
-import svg from '../../images/icons.svg';
+import { selectUserIsLoading, selectUserError } from '../../redux/selectors';
+// import svg from '../../images/icons.svg';
 import profilePic from '../../images/profile-pic.png';
+import { useAuth } from '../../hooks/useAuth';
 
 export const UserSetsModal = ({ onClose }) => {
   const dispatch = useDispatch();
-  const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectProfileIsLoading);
-  const error = useSelector(selectProfileError);
+  const isLoading = useSelector(selectUserIsLoading);
+  const error = useSelector(selectUserError);
+  const { user } = useAuth(); // Get the current user
 
-  const [formData, setFormData] = useState(profile || {});
+  const [formData, setFormData] = useState(user || {});
   const [avatar, setAvatar] = useState(null);
 
   // Fetch user data when the modal opens
   useEffect(() => {
     dispatch(fetchCurrentUser());
-  }, [dispatch]);
+
+    // Add event listener for the Escape key
+    const handleEscape = event => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [dispatch, onClose]);
 
   // Ensure formData is updated when the profile changes
   useEffect(() => {
-    if (profile) {
-      setFormData(profile);
+    if (user) {
+      setFormData(user);
     }
-  }, [profile]);
+  }, [user]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -62,12 +72,22 @@ export const UserSetsModal = ({ onClose }) => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(updateUser(formData)).then(() => {
-      onClose();
+      onClose(); // Close the modal after successful submission
     });
   };
 
+  // Handle backdrop click to close the modal
+  const handleBackdropClick = e => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] z-50"
+      onClick={handleBackdropClick} // Close modal on backdrop click
+    >
       <div className="bg-[#0C0D0D] rounded-[30px] p-[40px] w-[400px]">
         <div className="flex justify-between items-center mb-[20px]">
           <h2 className="text-white text-[24px]">Profile settings</h2>
@@ -128,17 +148,17 @@ export const UserSetsModal = ({ onClose }) => {
             <div className="relative">
               <select
                 name="currency"
-                value={formData.currency || 'USD'}
+                value={user.currency || 'USD'}
                 onChange={handleInputChange}
-                className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white appearance-none"
+                className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white "
               >
                 <option value="UAH">₴ UAH</option>
                 <option value="USD">$ USD</option>
                 <option value="EUR">€ EUR</option>
               </select>
-              <svg className="absolute right-[10px] top-[12px] text-white">
+              {/* <svg className="absolute right-[10px] top-[12px] text-white">
                 <use href={`${svg}#dropdown-icon`} />
-              </svg>
+              </svg> */}
             </div>
           </div>
           <button

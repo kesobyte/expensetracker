@@ -8,6 +8,6 @@ export const selectIsLoading = state => state.auth.isLoading;
 export const selectIsRefreshing = state => state.auth.isRefreshing;
 
 // userSelector
-export const selectUserProfile = state => state.profile.user;
-export const selectProfileIsLoading = state => state.profile.isLoading;
-export const selectProfileError = state => state.profile.error;
+export const selectCurrentUser = state => state.user.user;
+export const selectUserIsLoading = state => state.user.isLoading;
+export const selectUserError = state => state.user.error;
