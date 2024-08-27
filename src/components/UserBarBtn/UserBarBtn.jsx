@@ -36,7 +36,7 @@ export const UserBarBtn = () => {
       >
         <img
           className="w-[44px] h-[44px] rounded-[40px] bg-[#e0e0e0]"
-          src={tempProfile}
+          src={user.avatarUrl || tempProfile}
           alt="temporary profile"
         />
         <p className="text-[#fafafa66] text-[16px] font-normal tracking-[-0.32px]">

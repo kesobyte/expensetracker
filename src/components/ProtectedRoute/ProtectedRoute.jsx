@@ -7,7 +7,6 @@ export const ProtectedRoute = ({
   ...rest
 }) => {
   const { isLoggedIn } = useAuth();
-
   return isLoggedIn ? <Component {...rest} /> : <Navigate to={redirectTo} />;
 };
 

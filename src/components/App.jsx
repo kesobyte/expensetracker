@@ -27,7 +27,7 @@ export const App = () => {
     };
 
     checkAuthStatus();
-  }, [dispatch, token, isLoggedIn, sid]); // Include `sid` in the dependency array
+  }, [dispatch, token, isLoggedIn, sid]);
 
   // Show a loading spinner or splash screen while checking auth status
   if (isLoading) {

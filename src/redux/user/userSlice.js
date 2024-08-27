@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // prettier-ignore
-import { fetchUserProfile, updateProfile, uploadAvatar, removeAvatar,} from './profileOperation';
+import { fetchCurrentUser, updateUser, uploadAvatar, removeAvatar,} from './userOperation';
 
 const initialState = {
   user: { name: '', email: '', avatar: '', currency: '' },
@@ -8,35 +8,35 @@ const initialState = {
   error: null,
 };
 
-const profileSlice = createSlice({
+const userSlice = createSlice({
   name: 'profile',
   initialState,
   extraReducers: builder => {
     builder
       // Handle fetching profile
-      .addCase(fetchUserProfile.pending, state => {
+      .addCase(fetchCurrentUser.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoading = false;
       })
-      .addCase(fetchUserProfile.rejected, (state, action) => {
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
 
       // Handle updating profile
-      .addCase(updateProfile.pending, state => {
+      .addCase(updateUser.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(updateProfile.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         state.user = { ...state.user, ...action.payload };
         state.isLoading = false;
       })
-      .addCase(updateProfile.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -71,4 +71,4 @@ const profileSlice = createSlice({
   },
 });
 
-export const profileReducer = profileSlice.reducer;
+export const userReducer = userSlice.reducer;

@@ -7,7 +7,7 @@ export const selectSid = state => state.auth.sid; // Session ID
 export const selectIsLoading = state => state.auth.isLoading;
 export const selectIsRefreshing = state => state.auth.isRefreshing;
 
-// profileSelectors.js
+// userSelector
 export const selectUserProfile = state => state.profile.user;
 export const selectProfileIsLoading = state => state.profile.isLoading;
 export const selectProfileError = state => state.profile.error;

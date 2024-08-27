@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  updateProfile,
+  updateUser,
   uploadAvatar,
   removeAvatar,
-} from '../../redux/profile/profileOperation';
+  fetchCurrentUser,
+} from '../../redux/user/userOperation';
 import {
   selectUserProfile,
   selectProfileIsLoading,
   selectProfileError,
 } from '../../redux/selectors';
+import svg from '../../images/icons.svg';
+import profilePic from '../../images/profile-pic.png';
 
 export const UserSetsModal = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -19,6 +22,11 @@ export const UserSetsModal = ({ onClose }) => {
 
   const [formData, setFormData] = useState(profile || {});
   const [avatar, setAvatar] = useState(null);
+
+  // Fetch user data when the modal opens
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   // Ensure formData is updated when the profile changes
   useEffect(() => {
@@ -53,7 +61,7 @@ export const UserSetsModal = ({ onClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(updateProfile(formData)).then(() => {
+    dispatch(updateUser(formData)).then(() => {
       onClose();
     });
   };
@@ -71,7 +79,7 @@ export const UserSetsModal = ({ onClose }) => {
           <div className="flex flex-col items-center">
             <div className="relative">
               <img
-                src={formData.avatarUrl || '/default-avatar.png'}
+                src={formData.avatarUrl || profilePic}
                 alt="User Avatar"
                 className="w-[100px] h-[100px] rounded-full object-cover"
               />
@@ -117,16 +125,21 @@ export const UserSetsModal = ({ onClose }) => {
             <label htmlFor="currency" className="text-white mb-[5px]">
               Currency
             </label>
-            <select
-              name="currency"
-              value={formData.currency || 'USD'}
-              onChange={handleInputChange}
-              className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white"
-            >
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              {/* Add more currencies as needed */}
-            </select>
+            <div className="relative">
+              <select
+                name="currency"
+                value={formData.currency || 'USD'}
+                onChange={handleInputChange}
+                className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white appearance-none"
+              >
+                <option value="UAH">₴ UAH</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+              </select>
+              <svg className="absolute right-[10px] top-[12px] text-white">
+                <use href={`${svg}#dropdown-icon`} />
+              </svg>
+            </div>
           </div>
           <button
             type="submit"
