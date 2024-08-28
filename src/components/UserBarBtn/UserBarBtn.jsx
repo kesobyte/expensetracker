@@ -2,12 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import tempProfile from '../../images/profile-pic.png';
 import svg from '../../images/icons.svg';
 import { UserPanel } from './UserPanel/UserPanel';
-import { useAuth } from '../../hooks/useAuth';
+// import { useAuth } from '../../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/user/selectors';
 
 export const UserBarBtn = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const panelRef = useRef(null);
-  const { user } = useAuth(); // Get the current user
+  // const { user } = useAuth(); // Get the current user
+  const user = useSelector(selectUser);
 
   // Toggle the UserPanel and Chevron Icon
   const togglePanel = () => {

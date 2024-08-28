@@ -1,50 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   updateUser,
-  uploadAvatar,
+  changeAvatar,
   removeAvatar,
-  fetchCurrentUser,
 } from '../../redux/user/userOperation';
-import { selectUserIsLoading, selectUserError } from '../../redux/selectors';
-// import svg from '../../images/icons.svg';
+import { selectUser, selectUserIsLoading } from '../../redux/user/selectors';
 import profilePic from '../../images/profile-pic.png';
-import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 export const UserSetsModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectUserIsLoading);
-  const error = useSelector(selectUserError);
-  const { user } = useAuth(); // Get the current user
+  const user = useSelector(selectUser);
+  const [formData, setFormData] = useState(user);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const inputRef = useRef(null);
 
-  const [formData, setFormData] = useState(user || {});
-  const [avatar, setAvatar] = useState(null);
-
-  // Fetch user data when the modal opens
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-
-    // Add event listener for the Escape key
-    const handleEscape = event => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [dispatch, onClose]);
-
-  // Ensure formData is updated when the profile changes
   useEffect(() => {
     if (user) {
       setFormData(user);
     }
   }, [user]);
 
+  // Function to handle keydown event
+  const handleKeyDown = e => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener for keydown when the component mounts
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Remove event listener when the component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
+  // Handle input changes for text fields
   const handleInputChange = e => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -53,27 +49,70 @@ export const UserSetsModal = ({ onClose }) => {
     }));
   };
 
-  const handleAvatarChange = e => {
-    setAvatar(e.target.files[0]);
+  // Handle file selection when the image is clicked
+  const handleImageClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
   };
 
+  // Store the selected file when a new file is chosen
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  // Handle the actual upload when the button is clicked
   const handleUploadAvatar = () => {
-    const avatarData = new FormData();
-    avatarData.append('avatar', avatar);
-    dispatch(uploadAvatar(avatarData)).then(() => {
-      setAvatar(null); // Reset avatar after uploading
-    });
+    if (selectedFile) {
+      dispatch(changeAvatar(selectedFile))
+        .unwrap()
+        .then(() => {
+          toast.success('Avatar has been updated successfully!');
+          setSelectedFile(null);
+          onClose();
+        })
+        .catch(e => {
+          toast.error('Something went wrong! Try to upload a smaller photo');
+        });
+    }
   };
 
+  // Remove avatar and update the form UI immediately
   const handleRemoveAvatar = () => {
-    dispatch(removeAvatar());
+    if (user._id) {
+      // Dispatch the Redux action to remove the avatar in the backend
+      dispatch(removeAvatar(user._id))
+        .unwrap()
+        .then(() => {
+          // Update the user state to remove the avatar URL
+          setFormData(prevState => ({
+            ...prevState,
+            avatarUrl: null,
+          }));
+          toast.success('Avatar has been removed');
+          onClose();
+        })
+        .catch(e => {
+          toast.error('Something went wrong! Try again');
+        });
+    }
   };
 
+  // Submit updated user data
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(updateUser(formData)).then(() => {
-      onClose(); // Close the modal after successful submission
-    });
+    dispatch(updateUser(formData))
+      .unwrap()
+      .then(() => {
+        toast.success('Profile updated successfully!');
+        onClose(); // Close the modal after successful submission
+      })
+      .catch(error => {
+        toast.error('Profile update failed. Please try again.');
+      });
   };
 
   // Handle backdrop click to close the modal
@@ -91,34 +130,42 @@ export const UserSetsModal = ({ onClose }) => {
       <div className="bg-[#0C0D0D] rounded-[30px] p-[40px] w-[400px]">
         <div className="flex justify-between items-center mb-[20px]">
           <h2 className="text-white text-[24px]">Profile settings</h2>
-          <button onClick={onClose} className="text-white text-[24px]">
-            &times;
-          </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-[20px]">
           <div className="flex flex-col items-center">
             <div className="relative">
-              <img
-                src={formData.avatarUrl || profilePic}
-                alt="User Avatar"
-                className="w-[100px] h-[100px] rounded-full object-cover"
-              />
               <input
+                id="changeAvatar"
                 type="file"
-                name="avatar"
-                onChange={handleAvatarChange}
-                className="absolute inset-0 opacity-0 cursor-pointer"
+                ref={inputRef}
+                accept="image/*"
+                disabled={isLoading}
+                className="hidden"
+                onChange={handleFileChange} // Handle file selection
+              />
+              <img
+                src={
+                  selectedFile
+                    ? URL.createObjectURL(selectedFile)
+                    : formData.avatarUrl || profilePic
+                }
+                alt="User Avatar"
+                className="w-[100px] h-[100px] rounded-full object-cover cursor-pointer"
+                onClick={handleImageClick} // Open file explorer on image click
               />
             </div>
             <div className="flex gap-[10px] mt-[10px]">
               <button
                 type="button"
-                onClick={handleUploadAvatar}
-                disabled={isLoading || !avatar}
-                className="bg-[springgreen] text-white px-[10px] py-[5px] rounded"
+                onClick={handleUploadAvatar} // Trigger upload only when clicked
+                disabled={!selectedFile || isLoading} // Disable if no file selected or loading
+                className={`bg-[springgreen] text-white px-[10px] py-[5px] rounded cursor-pointer ${
+                  !selectedFile || isLoading ? 'opacity-50' : ''
+                }`}
               >
                 {isLoading ? 'Uploading...' : 'Upload new photo'}
               </button>
+
               <button
                 type="button"
                 onClick={handleRemoveAvatar}
@@ -136,7 +183,7 @@ export const UserSetsModal = ({ onClose }) => {
             <input
               type="text"
               name="name"
-              value={formData.name || ''}
+              value={formData.name}
               onChange={handleInputChange}
               className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white"
             />
@@ -148,17 +195,14 @@ export const UserSetsModal = ({ onClose }) => {
             <div className="relative">
               <select
                 name="currency"
-                value={user.currency || 'USD'}
+                value={formData.currency}
                 onChange={handleInputChange}
-                className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white "
+                className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white"
               >
-                <option value="UAH">₴ UAH</option>
-                <option value="USD">$ USD</option>
-                <option value="EUR">€ EUR</option>
+                <option value="uah">₴ UAH</option>
+                <option value="usd">$ USD</option>
+                <option value="eur">€ EUR</option>
               </select>
-              {/* <svg className="absolute right-[10px] top-[12px] text-white">
-                <use href={`${svg}#dropdown-icon`} />
-              </svg> */}
             </div>
           </div>
           <button
@@ -168,7 +212,6 @@ export const UserSetsModal = ({ onClose }) => {
           >
             {isLoading ? 'Saving...' : 'Save'}
           </button>
-          {error && <div className="text-red-500 mt-[10px]">{error}</div>}
         </form>
       </div>
     </div>

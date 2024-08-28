@@ -12,7 +12,7 @@ const setAuthHeader = token => {
 
 // Fetch User Profile
 export const fetchCurrentUser = createAsyncThunk(
-  'users/fetchUser',
+  'user/fetchUser',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
@@ -33,7 +33,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 // Update User Profile
 export const updateUser = createAsyncThunk(
-  'users/updateUser',
+  'user/updateUser',
   async (userData, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
@@ -44,7 +44,10 @@ export const updateUser = createAsyncThunk(
 
     try {
       setAuthHeader(token);
-      const response = await axios.patch('/users/info', userData);
+      const { name, currency } = userData;
+      const updatePayload = { name, currency };
+
+      const response = await axios.patch('/users/info', updatePayload);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -53,9 +56,9 @@ export const updateUser = createAsyncThunk(
 );
 
 // Upload Avatar
-export const uploadAvatar = createAsyncThunk(
-  'users/uploadAvatar',
-  async (formData, thunkAPI) => {
+export const changeAvatar = createAsyncThunk(
+  'user/changeAvatar',
+  async (avatarFile, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
 
@@ -65,8 +68,15 @@ export const uploadAvatar = createAsyncThunk(
 
     try {
       setAuthHeader(token);
-      const response = await axios.post('/users/avatar', formData);
-      return response.data;
+      const formData = new FormData();
+      formData.append('avatar', avatarFile);
+
+      const { data } = await axios.patch('users/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -75,8 +85,8 @@ export const uploadAvatar = createAsyncThunk(
 
 // Remove Avatar
 export const removeAvatar = createAsyncThunk(
-  'users/removeAvatar',
-  async (_, thunkAPI) => {
+  'user/removeAvatar',
+  async (avatarId, thunkAPI) => {
     const state = thunkAPI.getState();
     const token = state.auth.token;
 
@@ -86,8 +96,8 @@ export const removeAvatar = createAsyncThunk(
 
     try {
       setAuthHeader(token);
-      await axios.delete('/users/avatar');
-      return { avatar: '' };
+      const { data } = await axios.delete(`users/avatar/${avatarId}`);
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

@@ -1,9 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-// prettier-ignore
-import { fetchCurrentUser, updateUser, uploadAvatar, removeAvatar,} from './userOperation';
+import {
+  fetchCurrentUser,
+  updateUser,
+  changeAvatar,
+  removeAvatar,
+} from './userOperation';
 
 const initialState = {
-  user: '',
+  user: {},
   isLoading: false,
   error: null,
 };
@@ -13,7 +17,7 @@ const userSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      // Handle fetching profile
+      // Handle Fetching Current User
       .addCase(fetchCurrentUser.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -27,7 +31,7 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Handle updating profile
+      // Handle Update User
       .addCase(updateUser.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -41,16 +45,20 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Handle uploading avatar
-      .addCase(uploadAvatar.pending, state => {
+      // Handle Change Avatar
+      .addCase(changeAvatar.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(uploadAvatar.fulfilled, (state, action) => {
-        state.user.avatar = action.payload.avatar;
+      .addCase(changeAvatar.fulfilled, (state, action) => {
+        // state.user.avatar = action.payload.avatar;
+        state.user = {
+          ...state.user,
+          avatarUrl: action.payload?.avatarUrl,
+        };
         state.isLoading = false;
       })
-      .addCase(uploadAvatar.rejected, (state, action) => {
+      .addCase(changeAvatar.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -61,7 +69,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(removeAvatar.fulfilled, state => {
-        state.user.avatar = '';
+        state.user.avatarUrl = null;
         state.isLoading = false;
       })
       .addCase(removeAvatar.rejected, (state, action) => {

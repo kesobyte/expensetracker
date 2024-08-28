@@ -11,7 +11,10 @@ import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
 import { useAuth } from 'hooks/useAuth';
 import { refreshToken } from '../redux/auth/authOperation';
+import { fetchCurrentUser } from '../redux/user/userOperation'; // Import fetchCurrentUser
 import { Loader } from './Loader/Loader';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   const { isLoggedIn, token, sid } = useAuth(); // Ensure `sid` is destructured here
@@ -23,6 +26,12 @@ export const App = () => {
       if (token && !isLoggedIn) {
         await dispatch(refreshToken({ sid })).unwrap();
       }
+
+      if (isLoggedIn) {
+        // Fetch the current user data if logged in
+        await dispatch(fetchCurrentUser());
+      }
+
       setIsLoading(false); // Set loading to false after checking auth status
     };
 
@@ -105,6 +114,7 @@ export const App = () => {
           </Routes>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
