@@ -7,7 +7,9 @@ import {
 } from '../../redux/user/userOperation';
 import { selectUser, selectUserIsLoading } from '../../redux/user/selectors';
 import profilePic from '../../images/profile-pic.png';
+import svg from '../../images/icons.svg';
 import { toast } from 'react-toastify';
+import { ButtonLoader } from 'components/ButtonLoader/ButtonLoader';
 
 export const UserSetsModal = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ export const UserSetsModal = ({ onClose }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isOptionOpen, setIsOptionOpen] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -24,6 +27,14 @@ export const UserSetsModal = ({ onClose }) => {
       setFormData(user);
     }
   }, [user]);
+
+  const handleSelectFocus = () => {
+    setIsOptionOpen(true);
+  };
+
+  const handleSelectBlur = () => {
+    setIsOptionOpen(false);
+  };
 
   // Function to handle keydown event
   const handleKeyDown = e => {
@@ -126,7 +137,7 @@ export const UserSetsModal = ({ onClose }) => {
   return (
     // Backdrop
     <div
-      className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] z-50"
+      className="fixed inset-0 flex items-center justify-center bg-[#0c0d0d99] z-50 cursor-auto animate-fadeIn"
       onClick={handleBackdropClick} // Close modal on backdrop click
     >
       {/* Modal */}
@@ -179,41 +190,58 @@ export const UserSetsModal = ({ onClose }) => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="name" className="text-white mb-[5px]">
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="currency" className="text-white mb-[5px]">
-              Currency
-            </label>
+
+          {/* Input Fields */}
+          <div className="flex gap-[8px] mt-[40px]">
             <div className="relative">
               <select
                 name="currency"
                 value={formData.currency}
                 onChange={handleInputChange}
-                className="py-[10px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white"
+                onFocus={handleSelectFocus}
+                onBlur={handleSelectBlur}
+                className="py-[12px] pl-[18px] pr-[56px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white appearance-none"
               >
-                <option value="uah">₴ UAH</option>
-                <option value="usd">$ USD</option>
-                <option value="eur">€ EUR</option>
+                <option value="uah" className="bg-black text-white">
+                  ₴ UAH
+                </option>
+                <option value="usd" className="bg-black text-white">
+                  $ USD
+                </option>
+                <option value="eur" className="bg-black text-white">
+                  € EUR
+                </option>
               </select>
+              <svg
+                width={20}
+                height={20}
+                className="absolute right-[16px] top-[50%] transform translate-y-[-50%] pointer-events-none"
+              >
+                <use
+                  href={`${svg}${
+                    isOptionOpen ? '#chevron-up' : '#chevron-down'
+                  }`}
+                />
+              </svg>
+            </div>
+
+            <div className="w-full">
+              <input
+                className="py-[12px] px-[15px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white w-full"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
             </div>
           </div>
+
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[springgreen] text-white py-[10px] rounded-[12px] mt-[20px]"
+            className="flex w-full h-[47px] justify-center items-center bg-[springgreen] text-black py-[10px] rounded-[40px] mt-[20px]"
           >
-            {isLoading ? 'Saving...' : 'Save'}
+            {isLoading ? <ButtonLoader /> : 'Save'}
           </button>
         </form>
       </div>
