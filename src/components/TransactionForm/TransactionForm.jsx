@@ -1,10 +1,20 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import icon from '../../images/icons.svg';
+import { CategoriesModal } from 'components/CategoriesModal/CategoriesModal';
 
 export const TransactionForm = () => {
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState('false');
+
+  const openCategoryModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeCategoryModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const now = new Date();
@@ -102,6 +112,7 @@ export const TransactionForm = () => {
             Category
           </label>
           <input
+            onClick={openCategoryModal}
             type="text"
             className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white  hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
             placeholder="Enter category"
@@ -143,6 +154,9 @@ export const TransactionForm = () => {
         >
           Add
         </button>
+      </div>
+      <div>
+        {isModalOpen && <CategoriesModal onClose={closeCategoryModal} />}
       </div>
     </form>
   );

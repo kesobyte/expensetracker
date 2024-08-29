@@ -6,7 +6,6 @@ import LogoutPrompt from 'components/LogoutPrompt/LogoutPrompt';
 export const UserPanel = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-
   const profileButtonRef = useRef(null);
 
   const openLogoutPrompt = () => {
