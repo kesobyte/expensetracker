@@ -14,6 +14,8 @@ export const UserSetsModal = ({ onClose }) => {
   const isLoading = useSelector(selectUserIsLoading);
   const user = useSelector(selectUser);
   const [formData, setFormData] = useState(user);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const inputRef = useRef(null);
 
@@ -64,39 +66,38 @@ export const UserSetsModal = ({ onClose }) => {
     }
   };
 
-  // Handle the actual upload when the button is clicked
+  // Handle Avatar Upload
   const handleUploadAvatar = () => {
+    setIsUploading(true); // Set uploading state
     if (selectedFile) {
       dispatch(changeAvatar(selectedFile))
         .unwrap()
         .then(() => {
           toast.success('Avatar has been updated successfully!');
           setSelectedFile(null);
+          setIsUploading(false);
           onClose();
         })
         .catch(e => {
           toast.error('Something went wrong! Try to upload a smaller photo');
+          setIsUploading(false);
         });
     }
   };
 
-  // Remove avatar and update the form UI immediately
   const handleRemoveAvatar = () => {
+    setIsRemoving(true); // Set removing state
     if (user._id) {
-      // Dispatch the Redux action to remove the avatar in the backend
       dispatch(removeAvatar(user._id))
         .unwrap()
         .then(() => {
-          // Update the user state to remove the avatar URL
-          setFormData(prevState => ({
-            ...prevState,
-            avatarUrl: null,
-          }));
           toast.success('Avatar has been removed');
+          setIsRemoving(false);
           onClose();
         })
         .catch(e => {
           toast.error('Something went wrong! Try again');
+          setIsRemoving(false);
         });
     }
   };
@@ -129,54 +130,52 @@ export const UserSetsModal = ({ onClose }) => {
       onClick={handleBackdropClick} // Close modal on backdrop click
     >
       {/* Modal */}
-      <div className="bg-[#171719] rounded-[30px] p-[40px] w-[500px]">
+      <div className="bg-[#171719] rounded-[30px] p-[40px] w-[500px] border border-[#fafafa1a]">
         <div className="flex items-center mb-[40px]">
           <h2 className="text-white text-[28px] tracking-[-0.56px] leading-none">
             Profile settings
           </h2>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-[20px]">
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center">
-            <div className="relative">
-              <input
-                id="changeAvatar"
-                type="file"
-                ref={inputRef}
-                accept="image/*"
-                disabled={isLoading}
-                className="hidden"
-                onChange={handleFileChange} // Handle file selection
-              />
-              <img
-                src={
-                  selectedFile
-                    ? URL.createObjectURL(selectedFile)
-                    : formData.avatarUrl || profilePic
-                }
-                alt="User Avatar"
-                className="w-[100px] h-[100px] rounded-full object-cover cursor-pointer"
-                onClick={handleImageClick} // Open file explorer on image click
-              />
-            </div>
-            <div className="flex gap-[10px] mt-[10px]">
+            <input
+              id="changeAvatar"
+              type="file"
+              ref={inputRef}
+              accept="image/*"
+              disabled={isLoading}
+              className="hidden"
+              onChange={handleFileChange} // Handle file selection
+            />
+            <img
+              src={
+                selectedFile
+                  ? URL.createObjectURL(selectedFile)
+                  : formData.avatarUrl || profilePic
+              }
+              alt="User Avatar"
+              className="w-[100px] h-[100px] rounded-full object-cover cursor-pointer"
+              onClick={handleImageClick} // Open file explorer on image click
+            />
+            {/* Avatar Buttons */}
+            <div className="flex gap-[8px] mt-[20px]">
               <button
                 type="button"
                 onClick={handleUploadAvatar} // Trigger upload only when clicked
-                disabled={!selectedFile || isLoading} // Disable if no file selected or loading
-                className={`bg-[springgreen] text-white px-[10px] py-[5px] rounded cursor-pointer ${
-                  !selectedFile || isLoading ? 'opacity-50' : ''
+                disabled={!selectedFile || isUploading}
+                className={`bg-[#29292B] text-white text-[12px] px-[16px] py-[8px] rounded-[40px]  ${
+                  !selectedFile || isLoading ? 'opacity-50 cursor-default' : ''
                 }`}
               >
-                {isLoading ? 'Uploading...' : 'Upload new photo'}
+                {isUploading ? 'Uploading...' : 'Upload new photo'}
               </button>
-
               <button
                 type="button"
                 onClick={handleRemoveAvatar}
-                disabled={isLoading}
-                className="bg-red-500 text-white px-[10px] py-[5px] rounded"
+                disabled={isRemoving}
+                className="bg-[#29292B] text-white text-[12px] px-[16px] py-[8px] rounded-[40px]"
               >
-                {isLoading ? 'Removing...' : 'Remove'}
+                {isRemoving ? 'Removing...' : 'Remove'}
               </button>
             </div>
           </div>
