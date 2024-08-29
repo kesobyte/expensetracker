@@ -1,20 +1,13 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import icon from '../../images/icons.svg';
 import { CategoriesModal } from 'components/CategoriesModal/CategoriesModal';
 
 export const TransactionForm = () => {
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState('false');
-
-  const openCategoryModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeCategoryModal = () => {
-    setIsModalOpen(false);
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [transactionType, setTransactionType] = useState('expenses'); // Default to "expenses"
+  const [selectedCategory, setSelectedCategory] = useState(''); // Store the selected category name
 
   useEffect(() => {
     const now = new Date();
@@ -26,6 +19,23 @@ export const TransactionForm = () => {
     setCurrentTime(time);
   }, []);
 
+  const openCategoryModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeCategoryModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleTransactionTypeChange = e => {
+    setTransactionType(e.target.value); // Update transactionType based on selected radio button
+  };
+
+  const handleCategorySelect = category => {
+    setSelectedCategory(category.categoryName); // Set the selected category in the input field
+    closeCategoryModal(); // Close the modal
+  };
+
   return (
     <form className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-full">
       {/* Type */}
@@ -35,8 +45,10 @@ export const TransactionForm = () => {
             type="radio"
             id="expense"
             name="transaction"
-            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719]  checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
+            value="expenses"
+            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
             defaultChecked
+            onChange={handleTransactionTypeChange}
           />
           <label
             htmlFor="expense"
@@ -50,7 +62,9 @@ export const TransactionForm = () => {
             type="radio"
             id="income"
             name="transaction"
-            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719]  checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
+            value="incomes"
+            className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
+            onChange={handleTransactionTypeChange}
           />
           <label
             htmlFor="income"
@@ -114,8 +128,10 @@ export const TransactionForm = () => {
           <input
             onClick={openCategoryModal}
             type="text"
+            value={selectedCategory} // Display the selected category
             className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white  hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
-            placeholder="Enter category"
+            placeholder="Select a category"
+            readOnly
           />
         </div>
         <div className="flex flex-col gap-[8px]">
@@ -156,7 +172,13 @@ export const TransactionForm = () => {
         </button>
       </div>
       <div>
-        {isModalOpen && <CategoriesModal onClose={closeCategoryModal} />}
+        {isModalOpen && (
+          <CategoriesModal
+            onClose={closeCategoryModal}
+            type={transactionType}
+            onSelectCategory={handleCategorySelect} // Pass the category selection handler
+          />
+        )}
       </div>
     </form>
   );
