@@ -123,13 +123,17 @@ export const UserSetsModal = ({ onClose }) => {
   };
 
   return (
+    // Backdrop
     <div
       className="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.5)] z-50"
       onClick={handleBackdropClick} // Close modal on backdrop click
     >
-      <div className="bg-[#0C0D0D] rounded-[30px] p-[40px] w-[400px]">
-        <div className="flex justify-between items-center mb-[20px]">
-          <h2 className="text-white text-[24px]">Profile settings</h2>
+      {/* Modal */}
+      <div className="bg-[#171719] rounded-[30px] p-[40px] w-[500px]">
+        <div className="flex items-center mb-[40px]">
+          <h2 className="text-white text-[28px] tracking-[-0.56px] leading-none">
+            Profile settings
+          </h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-[20px]">
           <div className="flex flex-col items-center">
