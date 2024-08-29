@@ -141,7 +141,14 @@ export const UserSetsModal = ({ onClose }) => {
       onClick={handleBackdropClick} // Close modal on backdrop click
     >
       {/* Modal */}
-      <div className="bg-[#171719] rounded-[30px] p-[40px] w-[500px] border border-[#fafafa1a]">
+      <div className="relative bg-[#171719] rounded-[30px] p-[40px] w-[500px] border border-[#fafafa1a]">
+        <div className="absolute top-[20px] right-[-250px]">
+          <button onClick={onClose}>
+            <svg className="cursor-pointer">
+              <use href={`${svg}#close-icon `} />
+            </svg>
+          </button>
+        </div>
         <div className="flex items-center mb-[40px]">
           <h2 className="text-white text-[28px] tracking-[-0.56px] leading-none">
             Profile settings
@@ -156,7 +163,7 @@ export const UserSetsModal = ({ onClose }) => {
               accept="image/*"
               disabled={isLoading}
               className="hidden"
-              onChange={handleFileChange} // Handle file selection
+              onChange={handleFileChange}
             />
             <img
               src={
@@ -166,13 +173,13 @@ export const UserSetsModal = ({ onClose }) => {
               }
               alt="User Avatar"
               className="w-[100px] h-[100px] rounded-full object-cover cursor-pointer"
-              onClick={handleImageClick} // Open file explorer on image click
+              onClick={handleImageClick}
             />
             {/* Avatar Buttons */}
             <div className="flex gap-[8px] mt-[20px]">
               <button
                 type="button"
-                onClick={handleUploadAvatar} // Trigger upload only when clicked
+                onClick={handleUploadAvatar}
                 disabled={!selectedFile || isUploading}
                 className={`bg-[#29292B] text-white text-[12px] px-[16px] py-[8px] rounded-[40px]  ${
                   !selectedFile || isLoading ? 'opacity-50 cursor-default' : ''
