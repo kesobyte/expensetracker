@@ -1,24 +1,28 @@
 import React, { useState, useRef } from 'react';
 import svg from '../../../images/icons.svg';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../../redux/auth/authOperation';
 import { UserSetsModal } from 'components/UserSetsModal/UserSetsModal';
+import LogoutPrompt from 'components/LogoutPrompt/LogoutPrompt';
 
 export const UserPanel = () => {
-  const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
   const profileButtonRef = useRef(null);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const openLogoutPrompt = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const closeLogoutPrompt = () => {
+    setIsLogoutModalOpen(false);
   };
 
   const openProfileSettings = () => {
-    setIsModalOpen(true);
+    setIsProfileModalOpen(true);
   };
 
   const closeProfileSettings = () => {
-    setIsModalOpen(false);
+    setIsProfileModalOpen(false);
     profileButtonRef.current?.focus();
   };
 
@@ -43,7 +47,7 @@ export const UserPanel = () => {
         </div>
         <div
           className="flex items-center gap-[12px] group hover:cursor-pointer"
-          onClick={handleLogout}
+          onClick={openLogoutPrompt}
         >
           <svg
             height={16}
@@ -59,7 +63,9 @@ export const UserPanel = () => {
       </div>
 
       {/* Render the UserSetsModal when isModalOpen is true */}
-      {isModalOpen && <UserSetsModal onClose={closeProfileSettings} />}
+      {isProfileModalOpen && <UserSetsModal onClose={closeProfileSettings} />}
+      {/* Render the LogoutPrompt when isModalOpen is true */}
+      {isLogoutModalOpen && <LogoutPrompt onClose={closeLogoutPrompt} />}
     </>
   );
 };
