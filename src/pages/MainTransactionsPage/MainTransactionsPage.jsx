@@ -1,9 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { TransactionsTotalAmount } from 'components/TransactionsTotalAmount/TransactionsTotalAmount';
 import { TransactionsChart } from 'components/TransactionsChart/TransactionsChart';
 import { TransactionForm } from 'components/TransactionForm/TransactionForm';
 
 export const MainTransactionsPage = () => {
+  const { transactionsType } = useParams(); // Extract the type from the URL
+
   return (
     <div className="flex gap-[44px]">
       <div className="max-w-[630px]">
@@ -25,8 +28,9 @@ export const MainTransactionsPage = () => {
       </div>
 
       {/* Form */}
-      <div className="">
-        <TransactionForm />
+      <div>
+        <TransactionForm type={transactionsType} />{' '}
+        {/* Pass the URL type to TransactionForm */}
       </div>
     </div>
   );

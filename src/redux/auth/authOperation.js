@@ -86,13 +86,7 @@ export const refreshToken = createAsyncThunk(
       // Set the refresh token in the Authorization header
       setAuthHeader(persistedRefreshToken);
 
-      // Make the API call to refresh the token
-      console.log(
-        'Before API call, persistedRefreshToken:',
-        persistedRefreshToken
-      );
       const response = await axios.post('/auth/refresh', { sid });
-      console.log('After API call, new tokens:', response.data);
 
       const {
         accessToken,

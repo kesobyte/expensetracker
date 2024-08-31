@@ -1,11 +1,10 @@
-import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import {
   createCategory,
   getAllCategories,
   updateCategory,
   deleteCategory,
 } from './categoryOperation';
-
 import { toast } from 'react-toastify';
 
 const initialState = {
@@ -15,126 +14,92 @@ const initialState = {
   },
   error: null,
   isLoading: false,
-  deletedId: null,
 };
 
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
-  reducers: {
-    setCurrentId: (state, { payload }) => {
-      state.deletedId = payload;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
+      .addCase(getAllCategories.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(getAllCategories.fulfilled, (state, { payload }) => {
-        state.categories = payload;
+        state.categories = payload || { incomes: [], expenses: [] };
         state.isLoading = false;
       })
-      .addCase(deleteCategory.fulfilled, (state, { payload }) => {
-        const deletingIncCategory = state.categories?.incomes?.find(
-          category => category._id === payload
-        );
-        const deletingExpCategory = state.categories?.expenses?.find(
-          category => category._id === payload
-        );
-
-        if (deletingIncCategory) {
-          state.categories.incomes = state.categories?.incomes?.filter(
-            category => category !== deletingIncCategory
-          );
-          toast.info('You deleted the category successfully');
-        }
-
-        if (deletingExpCategory) {
-          state.categories.expenses = state.categories?.expenses?.filter(
-            category => category !== deletingExpCategory
-          );
-          toast.info('You deleted the category successfully');
-        }
-
+      .addCase(getAllCategories.rejected, (state, { payload }) => {
         state.isLoading = false;
+        state.error = payload;
+        toast.error('Failed to fetch categories');
+      })
+
+      .addCase(createCategory.pending, state => {
+        state.isLoading = true;
+        state.error = null;
       })
       .addCase(createCategory.fulfilled, (state, { payload }) => {
-        const addedCategory = state.categories[payload.type]?.find(
-          category => category?.categoryName === payload?.categoryName
+        const { type, _id, categoryName } = payload;
+        state.categories[type].push({ _id, type, categoryName });
+        state.isLoading = false;
+      })
+      .addCase(createCategory.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+        toast.error('Failed to create category');
+      })
+
+      .addCase(updateCategory.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateCategory.fulfilled, (state, { payload }) => {
+        const { _id, categoryName } = payload;
+
+        // Find the category type by looking through both types of categories
+        const categoryType = Object.keys(state.categories).find(type =>
+          state.categories[type].some(category => category._id === _id)
         );
 
-        if (addedCategory) {
-          toast.warning('Category with this name already exists');
-          return;
-        }
+        if (categoryType) {
+          const categoryList = state.categories[categoryType];
+          const categoryIndex = categoryList.findIndex(
+            category => category._id === _id
+          );
 
-        if (!state.categories) {
-          state.categories = {};
-        }
-
-        switch (payload.type) {
-          case 'incomes':
-            if (!state.categories.incomes) {
-              state.categories.incomes = [];
-            }
-            state.categories.incomes.push(payload);
-            break;
-
-          case 'expenses':
-            if (!state.categories.expenses) {
-              state.categories.expenses = [];
-            }
-            state.categories.expenses.push(payload);
-            break;
-
-          default:
-            break;
+          if (categoryIndex >= 0) {
+            categoryList[categoryIndex].categoryName = categoryName; // Update the category name
+          }
         }
 
         state.isLoading = false;
       })
-      .addCase(updateCategory.fulfilled, (state, { payload }) => {
-        const incomeCategory = state.categories?.incomes?.find(
-          category => category._id === payload._id
-        );
-        const expenseCategory = state.categories?.expenses?.find(
-          category => category._id === payload._id
-        );
 
-        if (incomeCategory) {
-          incomeCategory.categoryName = payload.categoryName;
-          toast.success('You changed the category successfully');
-        }
-
-        if (expenseCategory) {
-          expenseCategory.categoryName = payload.categoryName;
-          toast.success('You changed the category successfully');
-        }
+      .addCase(updateCategory.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+        toast.error('Failed to update category');
       })
-      .addMatcher(
-        isAnyOf(
-          getAllCategories.pending,
-          deleteCategory.pending,
-          createCategory.pending,
-          updateCategory.pending
-        ),
-        (state, { payload }) => {
-          state.isLoading = true;
-          state.error = null;
-        }
-      )
-      .addMatcher(
-        isAnyOf(
-          getAllCategories.rejected,
-          deleteCategory.rejected,
-          createCategory.rejected,
-          updateCategory.rejected
-        ),
-        (state, { payload }) => {
-          state.error = payload;
-          state.isLoading = false;
-        }
-      );
+
+      .addCase(deleteCategory.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteCategory.fulfilled, (state, { payload }) => {
+        const { type, id } = payload;
+        state.categories[type] = state.categories[type]?.filter(
+          category => category._id !== id
+        );
+        state.isLoading = false;
+      })
+
+      .addCase(deleteCategory.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+      });
   },
 });
 
-export const { setCurrentId } = categoriesSlice.actions;
 export const categoriesReducer = categoriesSlice.reducer;

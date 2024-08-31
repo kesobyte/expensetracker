@@ -19,7 +19,7 @@ export const createCategory = createAsyncThunk(
     try {
       setAuthHeader(token);
       const response = await axios.post('categories', category);
-      return response.data;
+      return response.data; // Ensure the API returns the full category object
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -42,24 +42,33 @@ export const getAllCategories = createAsyncThunk(
 // Update Category
 export const updateCategory = createAsyncThunk(
   'updateCategory',
-  async ({ id, ...body }, thunkAPI) => {
+  async ({ id, categoryName }, thunkAPI) => {
     try {
-      const { data } = await axios.patch(`categories/${id}`, body);
-      return data;
+      const { data } = await axios.patch(`categories/${id}`, { categoryName });
+      return data; // Return the updated category object
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-//Delete Category
+// Delete Category
 export const deleteCategory = createAsyncThunk(
   'deleteCategory',
-  async (id, thunkAPI) => {
+  async ({ id, type }, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
     try {
+      setAuthHeader(token);
       await axios.delete(`categories/${id}`);
-      return id;
+      return { id, type };
     } catch (error) {
+      if (error.response && error.response.status === 409) {
+        return thunkAPI.rejectWithValue(
+          'Can`t remove! Some transactions depend on this category'
+        );
+      }
       return thunkAPI.rejectWithValue(error.message);
     }
   }

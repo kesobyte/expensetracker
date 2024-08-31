@@ -67,7 +67,7 @@ export const App = () => {
               element={
                 <RestrictedRoute
                   component={WelcomePage}
-                  redirectTo="/transactions"
+                  redirectTo="/transactions/expenses"
                 />
               }
             />
@@ -76,7 +76,7 @@ export const App = () => {
               element={
                 <RestrictedRoute
                   component={RegisterPage}
-                  redirectTo="/transactions"
+                  redirectTo="/transactions/expenses"
                 />
               }
             />
@@ -85,14 +85,14 @@ export const App = () => {
               element={
                 <RestrictedRoute
                   component={LoginPage}
-                  redirectTo="/transactions"
+                  redirectTo="/transactions/expenses"
                 />
               }
             />
 
             {/* Protected routes (accessible only when logged in) */}
             <Route
-              path="/transactions"
+              path="/transactions/:transactionsType"
               element={
                 <ProtectedRoute
                   component={MainTransactionsPage}
