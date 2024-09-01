@@ -21,8 +21,7 @@ export const TransactionHistoryPage = () => {
           <h1 className="text-[38px] text-white">{pageTitle}</h1>
           <p className="text-[16px] text-gray-400 mt-2">{pageDescription}</p>
         </div>
-        <TransactionsTotalAmount transactionsType={transactionsType} />
-        {/* Pass transactionsType to TransactionsTotalAmount */}
+        <TransactionsTotalAmount />
       </div>
 
       <TransactionSearchTool transactionsType={transactionsType} />

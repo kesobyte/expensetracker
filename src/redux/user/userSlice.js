@@ -7,7 +7,12 @@ import {
 } from './userOperation';
 
 const initialState = {
-  user: {},
+  user: {
+    transactionsTotal: {
+      incomes: 0,
+      expenses: 0,
+    },
+  },
   isLoading: false,
   error: null,
 };
@@ -17,21 +22,25 @@ const userSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      // Handle Fetching Current User
       .addCase(fetchCurrentUser.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = {
+          ...state.user,
+          ...action.payload,
+          transactionsTotal: action.payload.transactionsTotal || {
+            incomes: 0,
+            expenses: 0,
+          },
+        };
         state.isLoading = false;
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
-
-      // Handle Update User
       .addCase(updateUser.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -44,14 +53,11 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-
-      // Handle Change Avatar
       .addCase(changeAvatar.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(changeAvatar.fulfilled, (state, action) => {
-        // state.user.avatar = action.payload.avatar;
         state.user = {
           ...state.user,
           avatarUrl: action.payload?.avatarUrl,
@@ -62,8 +68,6 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-
-      // Handle removing avatar
       .addCase(removeAvatar.pending, state => {
         state.isLoading = true;
         state.error = null;

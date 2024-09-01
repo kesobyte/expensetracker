@@ -4,7 +4,6 @@ import { TransactionForm } from 'components/TransactionForm/TransactionForm';
 import {
   getTransactions,
   deleteTransaction,
-  updateTransaction,
 } from '../../redux/transaction/transactionOperation';
 import {
   selectTransactions,
@@ -14,7 +13,6 @@ import {
 import { Loader } from 'components/Loader/Loader';
 
 export const TransactionList = ({ transactionsType }) => {
-  // Accept the transactionsType prop
   const dispatch = useDispatch();
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoading);
@@ -48,14 +46,14 @@ export const TransactionList = ({ transactionsType }) => {
     setCurrentTransaction(null);
   };
 
-  const handleFormSubmit = updatedTransaction => {
-    dispatch(updateTransaction(updatedTransaction));
-    handleModalClose();
-  };
-
   return (
     <div className="p-4">
-      {loading && <Loader />}
+      {loading && (
+        <div className="flex justify-center mt-[5%]">
+          <Loader />{' '}
+        </div>
+      )}
+
       {error && <p>Error: {error}</p>}
       {!loading && (
         <>
@@ -77,7 +75,7 @@ export const TransactionList = ({ transactionsType }) => {
                 <div className="w-2/6">{transaction.comment}</div>
                 <div className="w-1/6">{transaction.date}</div>
                 <div className="w-1/6">{transaction.time}</div>
-                <div className="w-1/6">{transaction.amount}</div>
+                <div className="w-1/6">{transaction.sum}</div>
                 <div className="w-1/6 flex justify-around">
                   <button
                     className="bg-green-500 text-black rounded-full px-4 py-1"
@@ -103,7 +101,7 @@ export const TransactionList = ({ transactionsType }) => {
           <TransactionForm
             transactionData={currentTransaction}
             type={currentTransaction?.type || transactionsType}
-            onSubmit={handleFormSubmit}
+            onSubmit={handleModalClose} // Only close the modal
           />
           <button
             className="absolute top-4 right-4 text-white"

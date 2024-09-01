@@ -1,7 +1,11 @@
 import React from 'react';
 import iconSvg from '../../images/icons.svg';
+import { useSelector } from 'react-redux';
+import { selectTransactionsTotal } from '../../redux/user/selectors';
 
 export const TransactionsTotalAmount = () => {
+  const transactionsTotal = useSelector(selectTransactionsTotal);
+
   return (
     <div className="flex gap-[24px]">
       <div className="bg-[#171719] w-[303px] h-[121px] flex-shrink-0 rounded-[30px] flex items-center gap-[22px]">
@@ -16,7 +20,7 @@ export const TransactionsTotalAmount = () => {
             Total Income
           </p>
           <div className="flex items-center">
-            <p className="text-[#fafafa] text-[24px] font-bold">$10,532.00</p>
+            <p className="text-[#fafafa] text-[24px] font-bold">{`$${transactionsTotal.incomes}`}</p>
           </div>
         </div>
       </div>
@@ -33,7 +37,7 @@ export const TransactionsTotalAmount = () => {
             Total Expense
           </p>
           <div className="flex items-center">
-            <p className="text-[#fafafa] text-[24px] font-bold">$12,242.00</p>
+            <p className="text-[#fafafa] text-[24px] font-bold">{`$${transactionsTotal.expenses}`}</p>
           </div>
         </div>
       </div>

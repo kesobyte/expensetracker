@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import {
   createTransaction,
   getTransactions,
@@ -10,9 +9,9 @@ import {
 import { toast } from 'react-toastify';
 
 const initialState = {
-  transactions: [],
-  loading: false,
-  error: null,
+  transactions: [], // Array to store transactions
+  loading: false, // Loading state
+  error: null, // Error state
 };
 
 const transactionSlice = createSlice({
@@ -26,10 +25,7 @@ const transactionSlice = createSlice({
       })
       .addCase(createTransaction.fulfilled, (state, action) => {
         state.loading = false;
-
-        if (action?.payload?.type === 'expenses') {
-          state.transactions.push(action.payload);
-        }
+        state.transactions.push(action.payload); // Add new transaction to the array
         toast.success('Transaction added');
       })
       .addCase(createTransaction.rejected, (state, action) => {
@@ -42,7 +38,7 @@ const transactionSlice = createSlice({
       })
       .addCase(getTransactions.fulfilled, (state, action) => {
         state.loading = false;
-        state.transactions = action.payload;
+        state.transactions = action.payload; // Set the fetched transactions
       })
       .addCase(getTransactions.rejected, (state, action) => {
         state.loading = false;
@@ -53,32 +49,33 @@ const transactionSlice = createSlice({
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         state.loading = false;
-        const transactionId = action?.payload;
-
-        state.transactions = state.transactions?.filter(
-          transaction => transaction._id !== transactionId
-        );
+        state.transactions = state.transactions.filter(
+          transaction => transaction._id !== action.payload
+        ); // Remove the deleted transaction
+        toast.success('Transaction deleted');
       })
       .addCase(deleteTransaction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error('Failed to delete transaction');
       })
       .addCase(updateTransaction.pending, state => {
         state.loading = true;
       })
       .addCase(updateTransaction.fulfilled, (state, action) => {
-        const itemIndex = state.transactions.findIndex(
-          item => item._id === action.payload._id
+        const index = state.transactions.findIndex(
+          transaction => transaction._id === action.payload._id
         );
-        if (itemIndex !== -1) {
-          state.loading = false;
-          state.transactions?.splice(itemIndex, 1, action.payload);
+        if (index !== -1) {
+          state.transactions[index] = action.payload; // Update the transaction in the array
         }
+        state.loading = false;
         toast.success('Transaction updated');
       })
       .addCase(updateTransaction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error('Failed to update transaction');
       });
   },
 });

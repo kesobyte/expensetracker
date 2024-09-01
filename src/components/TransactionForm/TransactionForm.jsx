@@ -4,16 +4,23 @@ import icon from '../../images/icons.svg';
 import { CategoriesModal } from 'components/CategoriesModal/CategoriesModal';
 import { useDispatch } from 'react-redux';
 import { getAllCategories } from '../../redux/category/categoryOperation';
+import {
+  createTransaction,
+  updateTransaction,
+} from '../../redux/transaction/transactionOperation';
 
 export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const [currentDate, setCurrentDate] = useState(transactionData?.date || '');
   const [currentTime, setCurrentTime] = useState(transactionData?.time || '');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(
-    transactionData?.category || ''
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    transactionData?.category?._id || ''
+  );
+  const [selectedCategoryName, setSelectedCategoryName] = useState(
+    transactionData?.category?.categoryName || ''
   );
   const [transactionType, setTransactionType] = useState(type);
-  const [sum, setSum] = useState(transactionData?.amount || '');
+  const [sum, setSum] = useState(transactionData?.sum || '');
   const [comment, setComment] = useState(transactionData?.comment || '');
 
   const navigate = useNavigate();
@@ -46,25 +53,47 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   };
 
   const handleCategorySelect = category => {
-    setSelectedCategory(category.categoryName);
+    setSelectedCategoryId(category._id); // Store the ObjectId
+    setSelectedCategoryName(category.categoryName); // Store the name
     closeCategoryModal();
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    const updatedTransaction = {
+
+    const transactionPayload = {
       ...transactionData,
-      category: selectedCategory,
+      type: transactionType,
+      category: selectedCategoryId, // Send the ObjectId
       date: currentDate,
       time: currentTime,
-      amount: sum,
+      sum: parseFloat(sum),
       comment,
     };
-    onSubmit(updatedTransaction);
+
+    console.log('Submitting transaction:', transactionPayload);
+
+    if (transactionData?._id) {
+      console.log('Updating transaction');
+      dispatch(
+        updateTransaction({ ...transactionPayload, _id: transactionData._id })
+      );
+    } else {
+      console.log('Creating transaction');
+      dispatch(createTransaction(transactionPayload));
+    }
+
+    // Reset form fields after dispatch
+    setSelectedCategoryId('');
+    setSelectedCategoryName('');
+    setSum('');
+    setComment('');
+
+    if (onSubmit) onSubmit(transactionPayload); // Call the onSubmit prop if provided
   };
 
   return (
-    <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-full">
+    <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] ">
       <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
         <div className="flex flex-row text-white gap-[20px] items-center">
           <div className="flex items-center">
@@ -76,6 +105,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
               checked={transactionType === 'expenses'}
               onChange={handleTransactionTypeChange}
+              disabled={!!transactionData?._id} // Disable if editing
             />
             <label
               htmlFor="expense"
@@ -93,6 +123,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
               checked={transactionType === 'incomes'}
               onChange={handleTransactionTypeChange}
+              disabled={!!transactionData?._id} // Disable if editing
             />
             <label
               htmlFor="income"
@@ -155,7 +186,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
             <input
               onClick={openCategoryModal}
               type="text"
-              value={selectedCategory}
+              value={selectedCategoryName} // Display the category name
               className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
               placeholder="Select a category"
               readOnly
