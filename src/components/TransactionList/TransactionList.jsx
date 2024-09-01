@@ -11,6 +11,7 @@ import {
   selectError,
 } from '../../redux/transaction/selectors';
 import { Loader } from 'components/Loader/Loader';
+import { selectFilter, selectStartDate } from '../../redux/filter/selectors';
 
 export const TransactionList = ({ transactionsType }) => {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ export const TransactionList = ({ transactionsType }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState(null);
+
+  const filter = useSelector(selectFilter);
+  const startDate = useSelector(selectStartDate);
 
   useEffect(() => {
     if (transactionsType) {
@@ -31,6 +35,25 @@ export const TransactionList = ({ transactionsType }) => {
     setCurrentTransaction(transaction);
     setIsModalOpen(true);
   };
+
+  // Filter logic
+  const filteredTransactions = transactions.filter(transaction => {
+    // Match by filter text (comment or category name)
+    const matchFilter = filter
+      ? transaction.comment.toLowerCase().includes(filter.toLowerCase()) ||
+        transaction.category.categoryName
+          .toLowerCase()
+          .includes(filter.toLowerCase())
+      : true;
+
+    // Match by date (if a date filter is active)
+    const matchDate = startDate
+      ? new Date(transaction.date) >=
+        new Date(startDate.year, startDate.month - 1, startDate.day)
+      : true;
+
+    return matchFilter && matchDate;
+  });
 
   const handleDeleteClick = transactionId => {
     const confirmed = window.confirm(
@@ -66,7 +89,7 @@ export const TransactionList = ({ transactionsType }) => {
             <div className="w-1/6">Actions</div>
           </div>
           <div className="bg-gray-900 text-gray-300 rounded-b-lg p-2">
-            {transactions.map(transaction => (
+            {filteredTransactions.map(transaction => (
               <div
                 key={transaction._id}
                 className="flex justify-between items-center py-2 border-b border-gray-700 last:border-0"

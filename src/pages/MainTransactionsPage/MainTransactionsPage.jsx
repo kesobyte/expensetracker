@@ -1,11 +1,17 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { TransactionsTotalAmount } from 'components/TransactionsTotalAmount/TransactionsTotalAmount';
 import { TransactionsChart } from 'components/TransactionsChart/TransactionsChart';
 import { TransactionForm } from 'components/TransactionForm/TransactionForm';
+import { useDispatch } from 'react-redux';
+import { getTransactions } from '../../redux/transaction/transactionOperation';
 
 export const MainTransactionsPage = () => {
-  const { transactionsType } = useParams(); // Extract the type from the URL
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Fetch only expenses type transactions during login or refresh
+    dispatch(getTransactions({ type: 'expenses' }));
+  }, [dispatch]);
 
   return (
     <div className="flex gap-[44px]">
@@ -29,8 +35,7 @@ export const MainTransactionsPage = () => {
 
       {/* Form */}
       <div>
-        <TransactionForm type={transactionsType} />{' '}
-        {/* Pass the URL type to TransactionForm */}
+        <TransactionForm type="expenses" /> {/* Defaulting to 'expenses' */}
       </div>
     </div>
   );

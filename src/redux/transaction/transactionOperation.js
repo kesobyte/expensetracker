@@ -25,20 +25,6 @@ export const createTransaction = createAsyncThunk(
   }
 );
 
-// export const getTransactions = createAsyncThunk(
-//   'getTransactions',
-//   async ({ type, date }, thunkAPI) => {
-//     try {
-//       const { data } = await axios.get(`transactions/${type}`, {
-//         params: { date },
-//       });
-//       return data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
 export const getTransactions = createAsyncThunk(
   'transactions/getTransactions',
   async ({ type, startDate }, { rejectWithValue }) => {

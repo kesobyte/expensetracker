@@ -71,15 +71,11 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
       comment,
     };
 
-    console.log('Submitting transaction:', transactionPayload);
-
     if (transactionData?._id) {
-      console.log('Updating transaction');
       dispatch(
         updateTransaction({ ...transactionPayload, _id: transactionData._id })
       );
     } else {
-      console.log('Creating transaction');
       dispatch(createTransaction(transactionPayload));
     }
 

@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-const year = new Date().getFullYear();
-const month = new Date().getMonth() + 1;
-const day = new Date().getDate();
 
 const initialState = {
   filter: '',
-  startDate: { year, month, day },
+  startDate: null, // Start with no date filter (show all records)
 };
 
 export const filterSlice = createSlice({
