@@ -13,6 +13,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { filterReducer } from './filter/filterSlice';
+import { transactionReducer } from './transaction/transactionSlice';
 
 // Persisting relevant fields from auth slice to local storage
 const authPersistConfig = {
@@ -26,6 +28,8 @@ export const store = configureStore({
     auth: persistReducer(authPersistConfig, authReducer),
     user: userReducer,
     categories: categoriesReducer,
+    filter: filterReducer,
+    transaction: transactionReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

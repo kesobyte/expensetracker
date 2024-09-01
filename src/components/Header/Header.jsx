@@ -22,7 +22,7 @@ export const Header = () => {
           </div>
         </div>
       ) : (
-        <div className="max-w-[1440px] w-full mx-auto flex items-center justify-center mt-[32px]">
+        <div className="max-w-[1240px] w-full mx-auto flex items-center justify-center mt-[32px]">
           <Logo />
         </div>
       )}

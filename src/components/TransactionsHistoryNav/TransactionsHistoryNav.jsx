@@ -1,14 +1,33 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 export const TransactionsHistoryNav = () => {
   return (
-    <div className="flex justify-center gap-[16px]">
-      <button className="rounded-[30px] bg-transparent border border-[#fafafa66] px-[21px] py-[12px] text-white text-[16px] font-normal leading-normal tracking-[-0.32px]">
+    <div className="flex justify-center gap-[16px] mt-4">
+      <NavLink
+        to="/transactions/history/expenses"
+        className={({ isActive }) =>
+          `rounded-[30px] px-[21px] py-[12px] text-white text-[16px] font-normal leading-normal tracking-[-0.32px] ${
+            isActive
+              ? 'bg-[springgreen] text-black'
+              : 'bg-transparent border border-[#fafafa66]'
+          }`
+        }
+      >
         All Expense
-      </button>
-      <button className="rounded-[30px] bg-transparent border border-[#fafafa66] px-[21px] py-[12px] text-white text-[16px] font-normal leading-normal tracking-[-0.32px]">
+      </NavLink>
+      <NavLink
+        to="/transactions/history/incomes"
+        className={({ isActive }) =>
+          `rounded-[30px] px-[21px] py-[12px] text-white text-[16px] font-normal leading-normal tracking-[-0.32px] ${
+            isActive
+              ? 'bg-[springgreen] text-black'
+              : 'bg-transparent border border-[#fafafa66]'
+          }`
+        }
+      >
         All Income
-      </button>
+      </NavLink>
     </div>
   );
 };

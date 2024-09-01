@@ -5,24 +5,30 @@ import { CategoriesModal } from 'components/CategoriesModal/CategoriesModal';
 import { useDispatch } from 'react-redux';
 import { getAllCategories } from '../../redux/category/categoryOperation';
 
-export const TransactionForm = ({ type }) => {
-  const [currentDate, setCurrentDate] = useState('');
-  const [currentTime, setCurrentTime] = useState('');
+export const TransactionForm = ({ transactionData, onSubmit, type }) => {
+  const [currentDate, setCurrentDate] = useState(transactionData?.date || '');
+  const [currentTime, setCurrentTime] = useState(transactionData?.time || '');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(
+    transactionData?.category || ''
+  );
   const [transactionType, setTransactionType] = useState(type);
+  const [sum, setSum] = useState(transactionData?.amount || '');
+  const [comment, setComment] = useState(transactionData?.comment || '');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const now = new Date();
-    const date = now.toISOString().split('T')[0];
-    setCurrentDate(date);
+    if (!transactionData) {
+      const now = new Date();
+      const date = now.toISOString().split('T')[0];
+      setCurrentDate(date);
 
-    const time = now.toTimeString().split(' ')[0].slice(0, 5);
-    setCurrentTime(time);
-  }, []);
+      const time = now.toTimeString().split(' ')[0].slice(0, 5);
+      setCurrentTime(time);
+    }
+  }, [transactionData]);
 
   const handleTransactionTypeChange = e => {
     const selectedType = e.target.value;
@@ -44,11 +50,22 @@ export const TransactionForm = ({ type }) => {
     closeCategoryModal();
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    const updatedTransaction = {
+      ...transactionData,
+      category: selectedCategory,
+      date: currentDate,
+      time: currentTime,
+      amount: sum,
+      comment,
+    };
+    onSubmit(updatedTransaction);
+  };
+
   return (
     <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-full">
-      {/* Form */}
-      <form className="flex flex-col gap-[20px]">
-        {/* Type */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
         <div className="flex flex-row text-white gap-[20px] items-center">
           <div className="flex items-center">
             <input
@@ -86,7 +103,6 @@ export const TransactionForm = ({ type }) => {
           </div>
         </div>
 
-        {/* Date & Time */}
         <div className="flex flex-row gap-[20px]">
           <div className="flex flex-col gap-[8px]">
             <label
@@ -100,7 +116,6 @@ export const TransactionForm = ({ type }) => {
                 value={currentDate}
                 type="date"
                 className="py-[12px] pl-[18px] pr-[100px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
-                onClick={e => e.currentTarget.showPicker()}
                 onChange={e => setCurrentDate(e.target.value)}
               />
               <svg className="absolute top-[15px] left-[85%]">
@@ -120,7 +135,6 @@ export const TransactionForm = ({ type }) => {
                 value={currentTime}
                 type="time"
                 className="py-[12px] pl-[18px] pr-[130px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
-                onClick={e => e.currentTarget.showPicker()}
                 onChange={e => setCurrentTime(e.target.value)}
               />
               <svg className="absolute top-[15px] left-[85%]">
@@ -130,7 +144,6 @@ export const TransactionForm = ({ type }) => {
           </div>
         </div>
 
-        {/* Category and Sum */}
         <div className="flex flex-col gap-[20px]">
           <div className="flex flex-col gap-[8px]">
             <label
@@ -142,8 +155,8 @@ export const TransactionForm = ({ type }) => {
             <input
               onClick={openCategoryModal}
               type="text"
-              value={selectedCategory} // Display the selected category
-              className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white  hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
+              value={selectedCategory}
+              className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
               placeholder="Select a category"
               readOnly
             />
@@ -157,9 +170,11 @@ export const TransactionForm = ({ type }) => {
             </label>
             <div className="relative">
               <input
+                value={sum}
                 type="number"
-                className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white  hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
+                className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
                 placeholder="Enter sum"
+                onChange={e => setSum(e.target.value)}
               />
               <span className="absolute top-[15px] left-[85%] text-[16px] text-[#fafafa33]">
                 USD
@@ -168,7 +183,6 @@ export const TransactionForm = ({ type }) => {
           </div>
         </div>
 
-        {/* Comment */}
         <div className="flex flex-col gap-[8px]">
           <label
             htmlFor="comment"
@@ -177,21 +191,21 @@ export const TransactionForm = ({ type }) => {
             Comment
           </label>
           <textarea
+            value={comment}
             className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full h-[90px] resize-none"
             placeholder="Enter comment"
+            onChange={e => setComment(e.target.value)}
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen max-w-[25%] font-normal leading-none"
         >
-          Add
+          {transactionData ? 'Edit' : 'Add'}
         </button>
       </form>
 
-      {/* Modal for Categories */}
       {isModalOpen && (
         <CategoriesModal
           onClose={closeCategoryModal}

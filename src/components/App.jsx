@@ -14,6 +14,7 @@ import { refreshToken } from '../redux/auth/authOperation';
 import { fetchCurrentUser } from '../redux/user/userOperation'; // Import fetchCurrentUser
 import { Loader } from './Loader/Loader';
 import { ToastContainer } from 'react-toastify';
+import { TransactionHistoryPage } from 'pages/TransactionHistoryPage/TransactionHistoryPage';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
@@ -96,6 +97,15 @@ export const App = () => {
               element={
                 <ProtectedRoute
                   component={MainTransactionsPage}
+                  redirectTo="/"
+                />
+              }
+            />
+            <Route
+              path="/transactions/history/:transactionsType"
+              element={
+                <ProtectedRoute
+                  component={TransactionHistoryPage}
                   redirectTo="/"
                 />
               }
