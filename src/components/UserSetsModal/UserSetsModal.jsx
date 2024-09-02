@@ -209,11 +209,11 @@ export const UserSetsModal = ({ onClose }) => {
                 onBlur={handleSelectBlur}
                 className="py-[12px] pl-[18px] pr-[56px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white appearance-none"
               >
-                <option value="uah" className="bg-black text-white">
-                  ₴ UAH
-                </option>
                 <option value="usd" className="bg-black text-white">
                   $ USD
+                </option>
+                <option value="uah" className="bg-black text-white">
+                  ₴ UAH
                 </option>
                 <option value="eur" className="bg-black text-white">
                   € EUR

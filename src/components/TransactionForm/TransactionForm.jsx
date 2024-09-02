@@ -9,17 +9,13 @@ import {
   updateTransaction,
 } from '../../redux/transaction/transactionOperation';
 import { selectUser } from '../../redux/user/selectors';
-import {
-  selectExchangeRates,
-  selectExchangeRatesStatus,
-} from '../../redux/exchangeRate/selectors';
-import { fetchExchangeRates } from '../../redux/exchangeRate/exchangeRateOperation';
+import { selectExchangeRates } from '../../redux/exchangeRate/selectors';
 
 // Currency symbols
 const currencySymbols = {
-  uah: '₴',
-  usd: '$',
-  eur: '€',
+  uah: 'UAH',
+  usd: 'USD',
+  eur: 'EUR',
 };
 
 export const TransactionForm = ({ transactionData, onSubmit, type }) => {
@@ -33,15 +29,13 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
     transactionData?.category?.categoryName || ''
   );
   const [transactionType, setTransactionType] = useState(type);
-  const [sum, setSum] = useState(transactionData?.sum || '');
-  const [convertedSum, setConvertedSum] = useState('');
-  const [comment, setComment] = useState('');
+  const [sum, setSum] = useState('');
+  const [comment, setComment] = useState(transactionData?.comment || '');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const exchangeRates = useSelector(selectExchangeRates);
-  const exchangeRatesStatus = useSelector(selectExchangeRatesStatus);
 
   useEffect(() => {
     if (!transactionData) {
@@ -52,18 +46,14 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
       const time = now.toTimeString().split(' ')[0].slice(0, 5);
       setCurrentTime(time);
     }
-
-    if (exchangeRatesStatus === 'idle') {
-      dispatch(fetchExchangeRates()); // Fetch exchange rates on component mount
-    }
-  }, [transactionData, dispatch, exchangeRatesStatus]);
+  }, [transactionData]);
 
   useEffect(() => {
-    if (sum && exchangeRates[user.currency]) {
-      const rate = exchangeRates[user.currency];
-      setConvertedSum((sum * rate).toFixed(2));
+    if (transactionData) {
+      const rate = exchangeRates[user.currency.toUpperCase()] || 1;
+      setSum((transactionData.sum * rate).toFixed(2)); // Convert USD sum to the selected currency
     }
-  }, [sum, exchangeRates, user.currency]);
+  }, [transactionData, user.currency, exchangeRates]);
 
   const handleTransactionTypeChange = e => {
     const selectedType = e.target.value;
@@ -89,17 +79,13 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const handleSumChange = e => {
     const value = e.target.value;
     setSum(value);
-    if (exchangeRates[user.currency]) {
-      const rate = exchangeRates[user.currency];
-      setConvertedSum((value / rate).toFixed(2));
-    }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    // Convert the sum back to USD before submitting
-    const usdSum = convertedSum ? parseFloat(convertedSum) : parseFloat(sum);
+    const rate = exchangeRates[user.currency.toUpperCase()] || 1;
+    const convertedSum = parseFloat(sum) / rate; // Convert sum back to USD
 
     const transactionPayload = {
       ...transactionData,
@@ -107,7 +93,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
       category: selectedCategoryId, // Send the ObjectId
       date: currentDate,
       time: currentTime,
-      sum: usdSum, // Always save in USD
+      sum: parseFloat(convertedSum), // Save the sum in USD
       comment,
     };
 
@@ -250,11 +236,6 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
                 {currencySymbol}
               </span>
             </div>
-            {convertedSum && (
-              <p className="text-[#fafafa80] text-[14px] mt-[4px]">
-                Converted Sum: {currencySymbol} {convertedSum}
-              </p>
-            )}
           </div>
         </div>
 
