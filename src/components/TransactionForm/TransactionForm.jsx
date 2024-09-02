@@ -2,12 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import icon from '../../images/icons.svg';
 import { CategoriesModal } from 'components/CategoriesModal/CategoriesModal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllCategories } from '../../redux/category/categoryOperation';
 import {
   createTransaction,
   updateTransaction,
 } from '../../redux/transaction/transactionOperation';
+import { selectUser } from '../../redux/user/selectors';
+
+// Currency symbols
+const currencySymbols = {
+  uah: 'UAH',
+  usd: 'USD',
+  eur: 'EUR',
+};
 
 export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const [currentDate, setCurrentDate] = useState(transactionData?.date || '');
@@ -25,6 +33,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     if (!transactionData) {
@@ -87,6 +96,9 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
 
     if (onSubmit) onSubmit(transactionPayload); // Call the onSubmit prop if provided
   };
+
+  // Get the user's selected currency symbol
+  const currencySymbol = currencySymbols[user.currency] || '$';
 
   return (
     <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] ">
@@ -204,7 +216,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
                 onChange={e => setSum(e.target.value)}
               />
               <span className="absolute top-[15px] left-[85%] text-[16px] text-[#fafafa33]">
-                USD
+                {currencySymbol}
               </span>
             </div>
           </div>

@@ -79,6 +79,7 @@ export const TransactionsChart = () => {
         backgroundColor: backgroundColors,
         borderWidth: 0,
         borderRadius: 5,
+        spacing: -15,
       },
     ],
   };
@@ -86,7 +87,7 @@ export const TransactionsChart = () => {
   const options = {
     rotation: -90,
     circumference: 180,
-    cutout: '65%',
+    cutout: '67%',
     plugins: {
       legend: {
         display: false,

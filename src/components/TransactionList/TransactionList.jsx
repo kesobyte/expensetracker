@@ -12,6 +12,20 @@ import {
 } from '../../redux/transaction/selectors';
 import { Loader } from 'components/Loader/Loader';
 import { selectFilter, selectStartDate } from '../../redux/filter/selectors';
+import { selectUser } from '../../redux/user/selectors';
+
+// Currency symbols and example exchange rates (you should replace with actual API calls or data)
+const currencySymbols = {
+  uah: '₴',
+  usd: '$',
+  eur: '€',
+};
+
+const exchangeRates = {
+  uah: 41.16,
+  usd: 1, // Base currency
+  eur: 0.91,
+};
 
 export const TransactionList = ({ transactionsType }) => {
   const dispatch = useDispatch();
@@ -24,6 +38,7 @@ export const TransactionList = ({ transactionsType }) => {
 
   const filter = useSelector(selectFilter);
   const startDate = useSelector(selectStartDate);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     if (transactionsType) {
@@ -34,6 +49,12 @@ export const TransactionList = ({ transactionsType }) => {
   const handleEditClick = transaction => {
     setCurrentTransaction(transaction);
     setIsModalOpen(true);
+  };
+
+  // Convert sum to selected currency
+  const convertSum = sum => {
+    const rate = exchangeRates[user.currency] || 1;
+    return sum * rate;
   };
 
   // Filter logic
@@ -69,6 +90,9 @@ export const TransactionList = ({ transactionsType }) => {
     setCurrentTransaction(null);
   };
 
+  // Get the user's selected currency symbol
+  const currencySymbol = currencySymbols[user.currency] || '$';
+
   return (
     <div className="p-4">
       {loading && (
@@ -98,7 +122,12 @@ export const TransactionList = ({ transactionsType }) => {
                 <div className="w-2/6">{transaction.comment}</div>
                 <div className="w-1/6">{transaction.date}</div>
                 <div className="w-1/6">{transaction.time}</div>
-                <div className="w-1/6">{transaction.sum}</div>
+                <div className="w-1/6">
+                  {currencySymbol}
+                  {convertSum(transaction.sum)
+                    .toFixed(2) // Ensure two decimal places
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </div>
                 <div className="w-1/6 flex justify-around">
                   <button
                     className="bg-green-500 text-black rounded-full px-4 py-1"

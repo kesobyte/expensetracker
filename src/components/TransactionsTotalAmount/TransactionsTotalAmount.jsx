@@ -2,9 +2,42 @@ import React from 'react';
 import iconSvg from '../../images/icons.svg';
 import { useSelector } from 'react-redux';
 import { selectTransactionsTotal } from '../../redux/user/selectors';
+import { selectUser } from '../../redux/user/selectors';
+
+// Currency conversion rates (example rates)
+const exchangeRates = {
+  uah: 41.16,
+  usd: 1, // Base currency
+  eur: 0.91,
+};
+
+// Currency symbols
+const currencySymbols = {
+  uah: '₴',
+  usd: '$',
+  eur: '€',
+};
 
 export const TransactionsTotalAmount = () => {
   const transactionsTotal = useSelector(selectTransactionsTotal);
+  const user = useSelector(selectUser);
+
+  // Get the user's selected currency
+  const selectedCurrency = user.currency || 'usd'; // Default to USD if no currency is selected
+  const exchangeRate = exchangeRates[selectedCurrency];
+  const currencySymbol = currencySymbols[selectedCurrency];
+
+  // Convert the total amounts based on the selected currency and format with commas
+  const totalIncome = (transactionsTotal.incomes * exchangeRate).toLocaleString(
+    undefined,
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+  );
+  const totalExpense = (
+    transactionsTotal.expenses * exchangeRate
+  ).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   return (
     <div className="flex gap-[24px]">
@@ -20,7 +53,7 @@ export const TransactionsTotalAmount = () => {
             Total Income
           </p>
           <div className="flex items-center">
-            <p className="text-[#fafafa] text-[24px] font-bold">{`$${transactionsTotal.incomes}`}</p>
+            <p className="text-[#fafafa] text-[24px] font-bold">{`${currencySymbol}${totalIncome}`}</p>
           </div>
         </div>
       </div>
@@ -37,7 +70,7 @@ export const TransactionsTotalAmount = () => {
             Total Expense
           </p>
           <div className="flex items-center">
-            <p className="text-[#fafafa] text-[24px] font-bold">{`$${transactionsTotal.expenses}`}</p>
+            <p className="text-[#fafafa] text-[24px] font-bold">{`${currencySymbol}${totalExpense}`}</p>
           </div>
         </div>
       </div>
