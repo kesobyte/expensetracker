@@ -118,7 +118,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const currencySymbol = currencySymbols[user.currency] || '$';
 
   return (
-    <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] ">
+    <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-[622px]">
       <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
         <div className="flex flex-row text-white gap-[20px] items-center">
           <div className="flex items-center">
@@ -232,7 +232,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
                 placeholder="Enter sum"
                 onChange={handleSumChange}
               />
-              <span className="absolute top-[15px] left-[85%] text-[16px] text-[#fafafa33]">
+              <span className="absolute top-[15px] left-[90%] text-[16px] text-[#fafafa33]">
                 {currencySymbol}
               </span>
             </div>

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { register, login, logout, refreshToken } from './authOperation';
 
 const initialState = {
-  user: { name: null, email: null },
+  user: { name: null, email: null, currency: 'usd' }, // Default to USD
   token: null,
   refreshToken: null,
   sid: null,
@@ -48,7 +48,7 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(logout.fulfilled, state => {
-        state.user = { name: null, email: null };
+        state.user = { name: null, email: null, currency: state.user.currency }; // Keep the last known currency
         state.token = null;
         state.refreshToken = null;
         state.sid = null;

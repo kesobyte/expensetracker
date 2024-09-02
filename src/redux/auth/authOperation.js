@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { updateUser } from '../user/userOperation';
 
 // Provided API
 axios.defaults.baseURL = 'https://expense-tracker.b.goit.study/api';
@@ -24,11 +25,16 @@ export const register = createAsyncThunk(
         email,
         password,
       });
+
       // Automatically login after registration
       const loginResponse = await thunkAPI.dispatch(login({ email, password }));
+
+      // After login, update the currency to USD
+      await thunkAPI.dispatch(updateUser({ currency: 'usd' }));
+
       return loginResponse.payload; // Return the login response payload
     } catch (error) {
-      const status = error.response.status;
+      const status = error.response?.status;
       const message = error.message;
       return thunkAPI.rejectWithValue({ status, message });
     }
@@ -46,12 +52,9 @@ export const login = createAsyncThunk(
       // Store the tokens and set the authorization header
       setAuthHeader(accessToken);
 
-      // console.log(accessToken);
-      // console.log(sid);
-
       return { user, accessToken, refreshToken, sid };
     } catch (error) {
-      const status = error.response.status;
+      const status = error.response?.status;
       const message = error.message;
       return thunkAPI.rejectWithValue({ status, message });
     }
@@ -99,7 +102,6 @@ export const refreshToken = createAsyncThunk(
 
       return { accessToken, refreshToken: newRefreshToken, sid: newSid };
     } catch (error) {
-      console.error('Refresh failed:', error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

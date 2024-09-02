@@ -22,7 +22,7 @@ export default function LogoutPrompt({ onClose }) {
       onClick={handleBackdropClick} // Close modal on backdrop click
     >
       {/* Modal */}
-      <div className="flex flex-col justify-center items-center bg-[#171719] rounded-[30px] p-[40px] w-[500px] h-[266px] border border-[#fafafa1a]">
+      <div className="relative flex flex-col justify-center items-center bg-[#171719] rounded-[30px] p-[40px] w-[500px] h-[266px] border border-[#fafafa1a]">
         <div className="absolute top-[20px] right-[-250px]">
           <button onClick={onClose}>
             <svg className="cursor-pointer">
@@ -37,13 +37,13 @@ export default function LogoutPrompt({ onClose }) {
           <button
             onClick={() => dispatch(logout())}
             disabled={isLoading}
-            className="flex w-full h-[47px] justify-center items-center bg-[springgreen] text-black py-[14px] px-[44px] rounded-[40px]"
+            className="flex justify-center items-center bg-[springgreen] text-black py-[14px] px-[44px] rounded-[40px] hover:bg-[--mediumseagreen]"
           >
             {isLoading ? <ButtonLoader /> : 'Logout'}
           </button>
           <button
             onClick={onClose}
-            className="bg-[#29292b] text-white py-[14px] px-[44px] rounded-[40px]"
+            className="flex justify-center items-center bg-[#29292b] text-white py-[14px] px-[44px] rounded-[40px] hover:text-[#fafafa80]"
           >
             Cancel
           </button>
