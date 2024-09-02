@@ -16,11 +16,16 @@ import { Loader } from './Loader/Loader';
 import { ToastContainer } from 'react-toastify';
 import { TransactionHistoryPage } from 'pages/TransactionHistoryPage/TransactionHistoryPage';
 import 'react-toastify/dist/ReactToastify.css';
+// import { fetchExchangeRates } from '../redux/exchangeRate/exchangeRateOperation';
 
 export const App = () => {
   const { isLoggedIn, token, sid } = useAuth(); // Ensure `sid` is destructured here
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true); // Loading state
+
+  // useEffect(() => {
+  //   dispatch(fetchExchangeRates()); // Fetch exchange rates when the app loads
+  // }, [dispatch]);
 
   useEffect(() => {
     const checkAuthStatus = async () => {

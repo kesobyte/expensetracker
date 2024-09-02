@@ -13,19 +13,11 @@ import {
 import { Loader } from 'components/Loader/Loader';
 import { selectFilter, selectStartDate } from '../../redux/filter/selectors';
 import { selectUser } from '../../redux/user/selectors';
-
-// Currency symbols and example exchange rates (you should replace with actual API calls or data)
-const currencySymbols = {
-  uah: '₴',
-  usd: '$',
-  eur: '€',
-};
-
-const exchangeRates = {
-  uah: 41.16,
-  usd: 1, // Base currency
-  eur: 0.91,
-};
+import { fetchExchangeRates } from '../../redux/exchangeRate/exchangeRateOperation';
+import {
+  selectExchangeRates,
+  selectExchangeRatesStatus,
+} from '../../redux/exchangeRate/selectors';
 
 export const TransactionList = ({ transactionsType }) => {
   const dispatch = useDispatch();
@@ -39,21 +31,30 @@ export const TransactionList = ({ transactionsType }) => {
   const filter = useSelector(selectFilter);
   const startDate = useSelector(selectStartDate);
   const user = useSelector(selectUser);
+  const exchangeRates = useSelector(selectExchangeRates);
+  const exchangeRatesStatus = useSelector(selectExchangeRatesStatus);
 
   useEffect(() => {
     if (transactionsType) {
       dispatch(getTransactions({ type: transactionsType })); // Fetch based on transactionsType
     }
-  }, [dispatch, transactionsType]);
+
+    // Fetch exchange rates when the component mounts
+    if (user.currency) {
+      dispatch(fetchExchangeRates('USD')); // Fetching from USD as base currency
+    }
+  }, [dispatch, transactionsType, user.currency]);
 
   const handleEditClick = transaction => {
     setCurrentTransaction(transaction);
     setIsModalOpen(true);
   };
 
-  // Convert sum to selected currency
+  // Convert sum to selected currency using fetched exchange rates
   const convertSum = sum => {
-    const rate = exchangeRates[user.currency] || 1;
+    if (!exchangeRates || !user.currency) return sum;
+
+    const rate = exchangeRates[user.currency.toUpperCase()] || 1;
     return sum * rate;
   };
 
@@ -91,7 +92,12 @@ export const TransactionList = ({ transactionsType }) => {
   };
 
   // Get the user's selected currency symbol
-  const currencySymbol = currencySymbols[user.currency] || '$';
+  const currencySymbol =
+    {
+      uah: '₴',
+      usd: '$',
+      eur: '€',
+    }[user.currency] || '$';
 
   return (
     <div className="p-4">
@@ -102,7 +108,13 @@ export const TransactionList = ({ transactionsType }) => {
       )}
 
       {error && <p>Error: {error}</p>}
-      {!loading && (
+      {!loading && exchangeRatesStatus === 'loading' && (
+        <p>Loading exchange rates...</p>
+      )}
+      {!loading && exchangeRatesStatus === 'failed' && (
+        <p>Failed to load exchange rates. Please try again later.</p>
+      )}
+      {!loading && exchangeRatesStatus === 'succeeded' && (
         <>
           <div className="bg-gray-800 text-gray-300 rounded-t-lg p-2 flex justify-between items-center">
             <div className="w-1/6">Category</div>
