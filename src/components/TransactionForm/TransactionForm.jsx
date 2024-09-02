@@ -121,38 +121,38 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
     <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-[622px]">
       <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
         <div className="flex flex-row text-white gap-[20px] items-center">
-          <div className="flex items-center">
+          <div className="flex items-center group hover:cursor-pointer">
             <input
               type="radio"
               id="expense"
               name="transaction"
               value="expenses"
-              className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
+              className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100 group-hover:cursor-pointer"
               checked={transactionType === 'expenses'}
               onChange={handleTransactionTypeChange}
               disabled={!!transactionData?._id} // Disable if editing
             />
             <label
               htmlFor="expense"
-              className="ml-[8px] text-[16px] tracking-[-0.32px] font-normal"
+              className="ml-[8px] text-[16px] tracking-[-0.32px] font-normal group-hover:cursor-pointer"
             >
               Expense
             </label>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center group hover:cursor-pointer">
             <input
               type="radio"
               id="income"
               name="transaction"
               value="incomes"
-              className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100"
+              className="appearance-none h-[16px] w-[16px] outline-2 outline-[#fafafa33] outline rounded-full checked:bg-[springgreen] checked:border-[3px] checked:border-[#171719] checked:outline checked:outline-2 checked:outline-[springgreen] ease-in duration-100 group-hover:cursor-pointer"
               checked={transactionType === 'incomes'}
               onChange={handleTransactionTypeChange}
               disabled={!!transactionData?._id} // Disable if editing
             />
             <label
               htmlFor="income"
-              className="ml-[8px] text-[16px] tracking-[-0.32px] font-normal"
+              className="ml-[8px] text-[16px] tracking-[-0.32px] font-normal group-hover:cursor-pointer"
             >
               Income
             </label>

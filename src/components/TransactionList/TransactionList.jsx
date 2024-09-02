@@ -100,7 +100,7 @@ export const TransactionList = ({ transactionsType }) => {
     }[user.currency] || '$';
 
   return (
-    <div className="p-4">
+    <div className="">
       {loading && (
         <div className="flex justify-center mt-[5%]">
           <Loader />{' '}
@@ -116,7 +116,7 @@ export const TransactionList = ({ transactionsType }) => {
       )}
       {!loading && exchangeRatesStatus === 'succeeded' && (
         <>
-          <div className="bg-gray-800 text-gray-300 rounded-t-lg p-2 flex justify-between items-center">
+          <div className="bg-gray-800 text-gray-300 flex justify-between items-center px-[40px] py-[10px]">
             <div className="w-1/6">Category</div>
             <div className="w-2/6">Comment</div>
             <div className="w-1/6">Date</div>
@@ -124,11 +124,11 @@ export const TransactionList = ({ transactionsType }) => {
             <div className="w-1/6">Sum</div>
             <div className="w-1/6">Actions</div>
           </div>
-          <div className="bg-gray-900 text-gray-300 rounded-b-lg p-2">
+          <div className="bg-gray-900 text-gray-300 px-[40px] py-[10px]">
             {filteredTransactions.map(transaction => (
               <div
                 key={transaction._id}
-                className="flex justify-between items-center py-2 border-b border-gray-700 last:border-0"
+                className="flex justify-between items-center py-2  last:border-0"
               >
                 <div className="w-1/6">{transaction.category.categoryName}</div>
                 <div className="w-2/6">{transaction.comment}</div>

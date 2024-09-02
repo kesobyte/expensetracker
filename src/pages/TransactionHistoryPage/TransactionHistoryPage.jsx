@@ -24,11 +24,15 @@ export const TransactionHistoryPage = () => {
         <TransactionsTotalAmount />
       </div>
 
-      <TransactionSearchTool transactionsType={transactionsType} />
-      {/* Pass transactionsType to TransactionSearchTool if needed */}
+      <div className="flex flex-col bg-[#171719]  py-[20px] mt-[40px] rounded-[30px] gap-[20px]">
+        <div className="px-[40px]">
+          <TransactionSearchTool transactionsType={transactionsType} />
+        </div>
 
-      <TransactionList transactionsType={transactionsType} />
-      {/* Pass transactionsType to TransactionList */}
+        <div className="w-full">
+          <TransactionList transactionsType={transactionsType} />
+        </div>
+      </div>
     </div>
   );
 };

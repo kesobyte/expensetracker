@@ -45,11 +45,11 @@ export const TransactionSearchTool = () => {
   }, [selectedDate]);
 
   return (
-    <div className="flex flex-col gap-2 mx-5 mb-5 md:flex-row md:gap-5 md:ml-8 md:mb-4 lg:ml-10">
+    <div className="flex flex-col gap-[20px]  md:flex-row">
       <form onSubmit={e => e.preventDefault()} className="relative">
         <label className="w-full inline-flex items-center">
           <input
-            className="w-full px-6 py-4 rounded-full border border-transparent bg-gray-900 text-gray-400 text-base outline-none transition-colors duration-250 ease-in-out focus:border-green-400 hover:border-green-400"
+            className="w-[254px] px-[30px] py-[15px] leading-none rounded-full bg-[--black] text-gray-400 text-base outline-none transition-colors duration-250 ease-in-out focus:border-green-400 hover:border-green-400"
             placeholder="Search for anything.."
             type="text"
             value={tempFilter}
@@ -72,7 +72,7 @@ export const TransactionSearchTool = () => {
           onChange={handleDateChange}
           dateFormat="dd/MM/yyyy"
           placeholderText="dd/mm/yyyy"
-          className="px-6 py-4 rounded-full border border-gray-300 bg-transparent text-gray-400 outline-none transition-colors duration-250 ease-in-out focus:border-green-400 hover:border-green-400"
+          className="w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-gray-300 bg-transparent text-gray-400 outline-none transition-colors duration-250 ease-in-out focus:border-green-400 hover:border-green-400"
         />
         <svg
           className="absolute top-4 right-6 stroke-current text-green-400"
