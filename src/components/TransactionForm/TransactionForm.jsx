@@ -118,7 +118,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const currencySymbol = currencySymbols[user.currency] || '$';
 
   return (
-    <div className="flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-[622px]">
+    <div className="relative flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-[622px]">
       <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
         <div className="flex flex-row text-white gap-[20px] items-center">
           <div className="flex items-center group hover:cursor-pointer">
@@ -215,6 +215,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
               placeholder="Select a category"
               readOnly
+              disabled={!!transactionData?._id} // Disable if editing
             />
           </div>
           <div className="flex flex-col gap-[8px]">
@@ -258,7 +259,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
           type="submit"
           className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen max-w-[25%] font-normal leading-none"
         >
-          {transactionData ? 'Edit' : 'Add'}
+          {transactionData ? 'Save' : 'Add'}
         </button>
       </form>
 

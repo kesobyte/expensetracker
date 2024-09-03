@@ -18,6 +18,8 @@ import {
   selectExchangeRates,
   selectExchangeRatesStatus,
 } from '../../redux/exchangeRate/selectors';
+import svg from '../../images/icons.svg';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 
 export const TransactionList = ({ transactionsType }) => {
   const dispatch = useDispatch();
@@ -78,12 +80,15 @@ export const TransactionList = ({ transactionsType }) => {
   });
 
   const handleDeleteClick = transactionId => {
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this transaction?'
+    Confirm.show(
+      'Confirm',
+      'Do you want to delete the record?',
+      'Yes',
+      'No',
+      () => {
+        dispatch(deleteTransaction(transactionId));
+      }
     );
-    if (confirmed) {
-      dispatch(deleteTransaction(transactionId));
-    }
   };
 
   const handleModalClose = () => {
@@ -94,15 +99,49 @@ export const TransactionList = ({ transactionsType }) => {
   // Get the user's selected currency symbol
   const currencySymbol =
     {
-      uah: '₴',
-      usd: '$',
-      eur: '€',
+      uah: 'UAH',
+      usd: 'USD',
+      eur: 'EUR',
     }[user.currency] || '$';
 
+  // Handle backdrop click to close the modal
+  const handleBackdropClick = e => {
+    if (e.target === e.currentTarget) {
+      handleModalClose();
+    }
+  };
+
+  // Function to handle keydown event
+  const handleKeyDown = e => {
+    if (e.key === 'Escape') {
+      handleModalClose();
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener for keydown when the component mounts
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Remove event listener when the component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  });
+
   return (
-    <div className="">
+    <div>
+      <div className="flex justify-between items-center bg-[#00000033] px-[40px] py-[20px] leading-none text-[16px] text-[#fafafa66] h-full">
+        <div className="w-[15%]">Category</div>
+        <div className="w-[25%]">Comment</div>
+        <div className="w-[15%]">Date</div>
+        <div className="w-[10%]">Time</div>
+        <div className="w-[12%]">Sum</div>
+        <div className="w-[23%]">Actions</div>
+      </div>
+
+      {/* Loader */}
       {loading && (
-        <div className="flex justify-center mt-[5%]">
+        <div className="flex justify-center my-[40px]">
           <Loader />{' '}
         </div>
       )}
@@ -115,63 +154,74 @@ export const TransactionList = ({ transactionsType }) => {
         <p>Failed to load exchange rates. Please try again later.</p>
       )}
       {!loading && exchangeRatesStatus === 'succeeded' && (
-        <>
-          <div className="bg-gray-800 text-gray-300 flex justify-between items-center px-[40px] py-[10px]">
-            <div className="w-1/6">Category</div>
-            <div className="w-2/6">Comment</div>
-            <div className="w-1/6">Date</div>
-            <div className="w-1/6">Time</div>
-            <div className="w-1/6">Sum</div>
-            <div className="w-1/6">Actions</div>
-          </div>
-          <div className="bg-gray-900 text-gray-300 px-[40px] py-[10px]">
-            {filteredTransactions.map(transaction => (
-              <div
-                key={transaction._id}
-                className="flex justify-between items-center py-2  last:border-0"
-              >
-                <div className="w-1/6">{transaction.category.categoryName}</div>
-                <div className="w-2/6">{transaction.comment}</div>
-                <div className="w-1/6">{transaction.date}</div>
-                <div className="w-1/6">{transaction.time}</div>
-                <div className="w-1/6">
-                  {currencySymbol}
-                  {convertSum(transaction.sum)
-                    .toFixed(2) // Ensure two decimal places
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                </div>
-                <div className="w-1/6 flex justify-around">
-                  <button
-                    className="bg-green-500 text-black rounded-full px-4 py-1"
-                    onClick={() => handleEditClick(transaction)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-black text-gray-300 rounded-full px-4 py-1"
-                    onClick={() => handleDeleteClick(transaction._id)}
-                  >
-                    Delete
-                  </button>
-                </div>
+        <div className="bg-[#171719] text-white text-[17px] px-[40px] py-[10px] max-h-[275px] h-full leading-none overflow-auto">
+          {filteredTransactions.map(transaction => (
+            <div
+              key={transaction._id}
+              className="flex justify-between items-center py-[10px] last:border-0"
+            >
+              <div className="w-[15%]">{transaction.category.categoryName}</div>
+              <div className="w-[25%]">{transaction.comment}</div>
+              <div className="w-[15%]">{transaction.date}</div>
+              <div className="w-[10%]">{transaction.time}</div>
+              <div className="w-[12%]">
+                {convertSum(transaction.sum)
+                  .toFixed(0) // No decimal
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+                / {currencySymbol}
               </div>
-            ))}
-          </div>
-        </>
+              <div className="w-[23%] flex gap-[8px]">
+                <button
+                  className="flex justify-center items-center gap-[10px] bg-[springgreen] text-black text-[16px] rounded-full px-[32px] py-[14px] leading-none hover:bg-[mediumseagreen]"
+                  onClick={() => handleEditClick(transaction)}
+                >
+                  <span>
+                    <svg height={16} width={16}>
+                      <use href={`${svg}#pencil-icon`}></use>
+                    </svg>
+                  </span>
+                  Edit
+                </button>
+                <button
+                  className="flex justify-center items-center gap-[10px] bg-[black] text-white text-[16px] rounded-full px-[32px] py-[14px] leading-none group hover:text-[#fafafa66]"
+                  onClick={() => handleDeleteClick(transaction._id)}
+                >
+                  <span>
+                    <svg
+                      className="stroke-current text-white group-hover:text-[#fafafa66]"
+                      height={16}
+                      width={16}
+                    >
+                      <use href={`${svg}#trash-icon`}></use>
+                    </svg>
+                  </span>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
-
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-[#0c0d0d99] flex items-center justify-center z-50"
+          onClick={handleBackdropClick}
+        >
           <TransactionForm
             transactionData={currentTransaction}
             type={currentTransaction?.type || transactionsType}
             onSubmit={handleModalClose} // Only close the modal
           />
           <button
-            className="absolute top-4 right-4 text-white"
+            className="absolute bottom-[10%] left-[48%] text-white"
             onClick={handleModalClose}
           >
-            Close
+            <span className="text-[18px] tracking-widest font-bold hover:text-springgreen">
+              CLOSE
+            </span>
+            {/* <svg width={24} height={24}>
+              <use href={`${svg}#close-icon`}></use>
+            </svg> */}
           </button>
         </div>
       )}

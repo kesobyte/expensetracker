@@ -53,7 +53,7 @@ export const TransactionsTotalAmount = () => {
           </svg>
         </div>
 
-        <div className="flex flex-col gap-[7px]">
+        <div className="flex flex-col gap-[8px] leading-none">
           <p className="text-[#fafafa80] text-[16px] font-normal">
             Total Expense
           </p>
@@ -70,7 +70,7 @@ export const TransactionsTotalAmount = () => {
           </svg>
         </div>
 
-        <div className="flex flex-col gap-[7px]">
+        <div className="flex flex-col gap-[8px] leading-none">
           <p className="text-[#fafafa80] text-[16px] font-normal">
             Total Income
           </p>
