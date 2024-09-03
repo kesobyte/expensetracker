@@ -128,7 +128,7 @@ export const TransactionsChart = () => {
               </p>
             </div>
             <p className="text-[#fafafa] text-[16px] font-extrabold">
-              {item.percentage ? `${item.percentage}%` : 'N/A'}
+              {item.percentage ? `${item.percentage}%` : '0%'}
             </p>
           </div>
         ))}

@@ -24,7 +24,7 @@ export const TransactionHistoryPage = () => {
         <TransactionsTotalAmount />
       </div>
 
-      <div className="flex flex-col bg-[#171719] py-[20px] mt-[40px] rounded-[30px] gap-[20px] overflow-hidden">
+      <div className="flex flex-col bg-[#171719] py-[20px] mt-[40px] rounded-[30px] gap-[20px] overflow-hidden w-full">
         <div className="px-[40px]">
           <TransactionSearchTool transactionsType={transactionsType} />
         </div>

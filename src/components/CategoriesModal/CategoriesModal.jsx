@@ -47,12 +47,24 @@ export const CategoriesModal = ({ onClose, type, onSelectCategory }) => {
       return;
     }
 
+    // Check for duplicates
+    const duplicateCategory = categories[type]?.find(
+      category =>
+        category.categoryName.toLowerCase() ===
+        categoryName.trim().toLowerCase()
+    );
+
+    if (duplicateCategory && duplicateCategory._id !== editingCategoryId) {
+      toast.error('Category name already exists');
+      return;
+    }
+
     try {
       if (editingCategoryId) {
         await dispatch(
           updateCategory({ id: editingCategoryId, categoryName })
         ).unwrap();
-        toast.success('Category updated successfully');
+        toast.success('Category has been updated');
       } else {
         await dispatch(createCategory({ categoryName, type })).unwrap();
         toast.success('Category has been created');
@@ -60,7 +72,6 @@ export const CategoriesModal = ({ onClose, type, onSelectCategory }) => {
       setCategoryName('');
       setEditingCategoryId(null);
     } catch (error) {
-      console.error('Failed to add or edit category:', error);
       toast.error('Failed to update or create category');
     }
   };
@@ -172,7 +183,7 @@ export const CategoriesModal = ({ onClose, type, onSelectCategory }) => {
               type="submit"
               className="absolute right-[40px] bottom-[38.5px] py-[15px] px-[44px] leading-none rounded-[12px] bg-[springgreen] hover:bg-mediumseagreen text-black text-[16px]"
             >
-              {editingCategoryId ? 'Edit' : 'Add'}
+              {editingCategoryId ? 'Save' : 'Add'}
             </button>
           </form>
         </div>

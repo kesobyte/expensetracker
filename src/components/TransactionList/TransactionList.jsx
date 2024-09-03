@@ -8,7 +8,7 @@ import {
 import {
   selectTransactions,
   selectLoading,
-  selectError,
+  // selectError,
 } from '../../redux/transaction/selectors';
 import { Loader } from 'components/Loader/Loader';
 import { selectFilter, selectStartDate } from '../../redux/filter/selectors';
@@ -25,7 +25,7 @@ export const TransactionList = ({ transactionsType }) => {
   const dispatch = useDispatch();
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  // const error = useSelector(selectError);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState(null);
@@ -71,9 +71,15 @@ export const TransactionList = ({ transactionsType }) => {
       : true;
 
     // Match by date (if a date filter is active)
+    // const matchDate = startDate
+    //   ? new Date(transaction.date) >=
+    //     new Date(startDate.year, startDate.month - 1, startDate.day)
+    //   : true;
+
     const matchDate = startDate
-      ? new Date(transaction.date) >=
-        new Date(startDate.year, startDate.month - 1, startDate.day)
+      ? new Date(transaction.date).getFullYear() === startDate.year &&
+        new Date(transaction.date).getMonth() === startDate.month - 1 &&
+        new Date(transaction.date).getDate() === startDate.day
       : true;
 
     return matchFilter && matchDate;
@@ -146,7 +152,7 @@ export const TransactionList = ({ transactionsType }) => {
         </div>
       )}
 
-      {error && <p>Error: {error}</p>}
+      {/* {error && <p>Error: {error}</p>} */}
       {!loading && exchangeRatesStatus === 'loading' && (
         <p>Loading exchange rates...</p>
       )}
@@ -204,7 +210,7 @@ export const TransactionList = ({ transactionsType }) => {
       )}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-[#0c0d0d99] flex items-center justify-center z-50"
+          className="fixed inset-0 bg-[#0c0d0d99] flex items-center justify-center"
           onClick={handleBackdropClick}
         >
           <TransactionForm

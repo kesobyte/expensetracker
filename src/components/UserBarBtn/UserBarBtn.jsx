@@ -30,7 +30,7 @@ export const UserBarBtn = () => {
   }, []);
 
   return (
-    <div className="relative" ref={panelRef}>
+    <div className="relative z-10" ref={panelRef}>
       <div
         onClick={togglePanel}
         className="flex justify-center items-center gap-[8px] bg-[#171719] rounded-[30px] px-[16px] py-[6px] cursor-pointer"

@@ -25,7 +25,7 @@ export const TransactionSearchTool = () => {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDate();
-      dispatch(setStartDate({ year, month, day }));
+      dispatch(setStartDate({ year, month, day })); // Dispatch action with selected date
     } else {
       dispatch(setStartDate(null)); // Show all records when date is cleared
     }
@@ -67,7 +67,7 @@ export const TransactionSearchTool = () => {
           onChange={handleDateChange}
           dateFormat="dd/MM/yyyy"
           placeholderText="dd/mm/yyyy"
-          className="w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-[#fafafa33] bg-transparent text-white font-normal placeholder:text-[#fafafa66] transition-colors duration-250 ease-in-out focus:border-[springgreen] hover:border-[springgreen]"
+          className="w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-[#fafafa33] bg-transparent text-white font-normal placeholder:text-[#fafafa66] outline-none transition-colors duration-250 ease-in-out focus:border-[springgreen] hover:border-[springgreen]"
         />
         <svg
           className="absolute top-4 right-6 stroke-current text-green-400"

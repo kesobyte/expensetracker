@@ -10,6 +10,8 @@ import {
 } from '../../redux/transaction/transactionOperation';
 import { selectUser } from '../../redux/user/selectors';
 import { selectExchangeRates } from '../../redux/exchangeRate/selectors';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // Ensure this import is included
 
 // Currency symbols
 const currencySymbols = {
@@ -19,7 +21,9 @@ const currencySymbols = {
 };
 
 export const TransactionForm = ({ transactionData, onSubmit, type }) => {
-  const [currentDate, setCurrentDate] = useState(transactionData?.date || '');
+  const [currentDate, setCurrentDate] = useState(
+    transactionData?.date ? new Date(transactionData.date) : new Date()
+  );
   const [currentTime, setCurrentTime] = useState(transactionData?.time || '');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(
@@ -40,9 +44,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   useEffect(() => {
     if (!transactionData) {
       const now = new Date();
-      const date = now.toISOString().split('T')[0];
-      setCurrentDate(date);
-
+      setCurrentDate(now);
       const time = now.toTimeString().split(' ')[0].slice(0, 5);
       setCurrentTime(time);
     }
@@ -91,7 +93,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
       ...transactionData,
       type: transactionType,
       category: selectedCategoryId, // Send the ObjectId
-      date: currentDate,
+      date: currentDate.toISOString().split('T')[0], // Convert date to string
       time: currentTime,
       sum: parseFloat(convertedSum), // Save the sum in USD
       comment,
@@ -168,11 +170,10 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               Date
             </label>
             <div className="relative">
-              <input
-                value={currentDate}
-                type="date"
+              <DatePicker
+                selected={currentDate}
+                onChange={date => setCurrentDate(date)}
                 className="py-[12px] pl-[18px] pr-[100px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
-                onChange={e => setCurrentDate(e.target.value)}
               />
               <svg className="absolute top-[15px] left-[85%]">
                 <use href={`${icon}#calendar-icon`} />
