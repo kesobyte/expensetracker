@@ -86,3 +86,53 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+/* Calendar Picker CSS */
+
+/* Custom styling for the calendar picker */
+.react-datepicker__current-month {
+  color: black; /* Month and year at the top */
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 1px solid #0c0d0d33;
+}
+
+.react-datepicker__header {
+  background-color: springgreen;
+  padding: 10px;
+  border-bottom: none;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  color: black; /* Text color for day names and numbers */
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: black; /* Selected day background */
+  color: white; /* Selected day text color */
+  border-radius: 50%; /* Make the selected date a circle */
+}
+
+.react-datepicker__day:hover {
+  background-color: #222222; /* Hover state for the days */
+  color: white; /* Hover state text color */
+  border-radius: 50%; /* Make the hover date a circle */
+}
+
+.react-datepicker__month-container {
+  background-color: springgreen;
+}
+
+.react-datepicker {
+  font-family: 'Roboto', sans-serif; /* Custom font */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden;
+  border: none;
+}
+
+.react-datepicker__day--outside-month {
+  color: gray;
+}
