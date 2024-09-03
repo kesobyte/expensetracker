@@ -219,11 +219,11 @@ export const TransactionList = ({ transactionsType }) => {
             onSubmit={handleModalClose} // Only close the modal
           />
           <button
-            className="absolute bottom-[10%] left-[48%] text-white"
+            className="absolute top-[11%] left-[43%] text-white"
             onClick={handleModalClose}
           >
-            <span className="text-[18px] tracking-widest font-bold hover:text-springgreen">
-              CLOSE
+            <span className="text-[10px] font-light tracking-widest text-springgreen">
+              Click outside or press ESC to close
             </span>
             {/* <svg width={24} height={24}>
               <use href={`${svg}#close-icon`}></use>

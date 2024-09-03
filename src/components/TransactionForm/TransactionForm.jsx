@@ -173,9 +173,13 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               <DatePicker
                 selected={currentDate}
                 onChange={date => setCurrentDate(date)}
-                className="py-[12px] pl-[18px] pr-[100px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
+                className="py-[12px] pl-[18px] pr-[70px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
               />
-              <svg className="absolute top-[15px] left-[85%]">
+              <svg
+                width={20}
+                height={20}
+                className="absolute top-[15px] left-[85%]"
+              >
                 <use href={`${icon}#calendar-icon`} />
               </svg>
             </div>
@@ -194,7 +198,11 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
                 className="py-[12px] pl-[18px] pr-[130px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
                 onChange={e => setCurrentTime(e.target.value)}
               />
-              <svg className="absolute top-[15px] left-[85%]">
+              <svg
+                width={20}
+                height={20}
+                className="absolute top-[15px] left-[85%]"
+              >
                 <use href={`${icon}#clock-icon`} />
               </svg>
             </div>
