@@ -8,10 +8,13 @@ import {
   createTransaction,
   updateTransaction,
 } from '../../redux/transaction/transactionOperation';
+import { selectLoading } from '../../redux/transaction/selectors';
 import { selectUser } from '../../redux/user/selectors';
 import { selectExchangeRates } from '../../redux/exchangeRate/selectors';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // Ensure this import is included
+import { ButtonLoader } from '../ButtonLoader/ButtonLoader';
+// import { toast } from 'react-toastify';
 
 // Currency symbols
 const currencySymbols = {
@@ -39,6 +42,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const isLoading = useSelector(selectLoading);
   const exchangeRates = useSelector(selectExchangeRates);
 
   useEffect(() => {
@@ -266,9 +270,17 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
 
         <button
           type="submit"
-          className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen max-w-[25%] font-normal leading-none"
+          className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen max-w-[25%] h-[47px] font-normal leading-none"
         >
-          {transactionData ? 'Save' : 'Add'}
+          {isLoading ? (
+            <div className="max-h-[122px] leading-none">
+              <ButtonLoader />
+            </div>
+          ) : transactionData ? (
+            'Save'
+          ) : (
+            'Add'
+          )}
         </button>
       </form>
 

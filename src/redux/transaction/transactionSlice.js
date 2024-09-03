@@ -31,7 +31,7 @@ const transactionSlice = createSlice({
       .addCase(createTransaction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        toast.error('Oops, something went wrong, try again later');
+        toast.error('Please complete the form');
       })
       .addCase(getTransactions.pending, state => {
         state.loading = true;
