@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter } from '../../redux/filter/selectors';
 import { setFilter, setStartDate } from '../../redux/filter/filterSlice';
-
 import svg from '../../images/icons.svg';
+import { DebounceInput } from 'react-debounce-input';
 
 export const TransactionSearchTool = () => {
-  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
-
+  const filter = useSelector(selectFilter);
   const [tempFilter, setTempFilter] = useState(filter);
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -45,22 +43,19 @@ export const TransactionSearchTool = () => {
   }, [selectedDate]);
 
   return (
-    <div className="flex flex-col gap-[20px]  md:flex-row">
+    <div className="flex flex-row items-center gap-[20px]">
       <form onSubmit={e => e.preventDefault()} className="relative">
         <label className="w-full inline-flex items-center">
-          <input
-            className="w-[254px] px-[30px] py-[15px] leading-none rounded-full bg-[--black] text-gray-400 text-base outline-none transition-colors duration-250 ease-in-out focus:border-green-400 hover:border-green-400"
+          <DebounceInput
+            className="w-[254px] px-[30px] py-[15px] leading-none rounded-full bg-[--black] text-white font-normal placeholder:text-[#fafafa66] outline-none"
             placeholder="Search for anything.."
             type="text"
             value={tempFilter}
             onChange={onFilterChange} // Handle input change immediately
+            debounceTimeout={500}
           />
           <button type="button" className="absolute top-4 right-6">
-            <svg
-              className="stroke-current text-green-400"
-              width={20}
-              height={20}
-            >
+            <svg width={20} height={20}>
               <use href={`${svg}#search-icon`}></use>
             </svg>
           </button>
@@ -72,7 +67,7 @@ export const TransactionSearchTool = () => {
           onChange={handleDateChange}
           dateFormat="dd/MM/yyyy"
           placeholderText="dd/mm/yyyy"
-          className="w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-gray-300 bg-transparent text-gray-400 outline-none transition-colors duration-250 ease-in-out focus:border-green-400 hover:border-green-400"
+          className="w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-[#fafafa33] bg-transparent text-white font-normal placeholder:text-[#fafafa66] transition-colors duration-250 ease-in-out focus:border-[springgreen] hover:border-[springgreen]"
         />
         <svg
           className="absolute top-4 right-6 stroke-current text-green-400"
@@ -87,7 +82,7 @@ export const TransactionSearchTool = () => {
             onClick={handleClearDate}
             className="absolute top-4 right-14"
           >
-            <svg className="stroke-current text-red-400" width={20} height={20}>
+            <svg width={20} height={20}>
               <use href={`${svg}#clear-icon`}></use>
             </svg>
           </button>
