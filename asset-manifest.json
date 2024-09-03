@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/expensetracker/static/css/main.b229244f.css",
-    "main.js": "/expensetracker/static/js/main.f0813277.js",
+    "main.css": "/expensetracker/static/css/main.35429eb1.css",
+    "main.js": "/expensetracker/static/js/main.ea1d85a5.js",
     "static/media/hero-img.png": "/expensetracker/static/media/hero-img.f693aed93f49c8b068ed.png",
     "static/media/fleur-cook.png": "/expensetracker/static/media/fleur-cook.a4f09884bcbd2793d162.png",
     "static/media/ethan-valdez.png": "/expensetracker/static/media/ethan-valdez.03aa354456de5dc8d0fd.png",
     "static/media/amanda-lowery.png": "/expensetracker/static/media/amanda-lowery.cdd2badfb8227540f9d4.png",
     "static/media/icons.svg": "/expensetracker/static/media/icons.3ef36d700689a573e4a9fcb01c2644f4.svg",
     "index.html": "/expensetracker/index.html",
-    "main.b229244f.css.map": "/expensetracker/static/css/main.b229244f.css.map",
-    "main.f0813277.js.map": "/expensetracker/static/js/main.f0813277.js.map"
+    "main.35429eb1.css.map": "/expensetracker/static/css/main.35429eb1.css.map",
+    "main.ea1d85a5.js.map": "/expensetracker/static/js/main.ea1d85a5.js.map"
   },
   "entrypoints": [
-    "static/css/main.b229244f.css",
-    "static/js/main.f0813277.js"
+    "static/css/main.35429eb1.css",
+    "static/js/main.ea1d85a5.js"
   ]
 }
