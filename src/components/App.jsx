@@ -54,14 +54,14 @@ export const App = () => {
   }
 
   return (
-    <>
-      <div className="mx-auto">
+    <div className="flex justify-center p-[20px] md:p-0">
+      <div>
         <Header />
         <div
           className={`flex ${
             isLoggedIn
               ? 'justify-center mt-[59px]'
-              : 'gap-[54px] justify-center mt-[74px]'
+              : 'flex-col-reverse mt-[74px] justify-center md:gap-[54px] md:max-xl:flex-col-reverse md:max-xl:pb-[36px] xl:flex-row'
           }`}
         >
           {!isLoggedIn && <SharedLayout />}
@@ -130,6 +130,6 @@ export const App = () => {
         </div>
       </div>
       <ToastContainer />
-    </>
+    </div>
   );
 };

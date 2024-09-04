@@ -3,16 +3,16 @@ import iconSvg from '../../../images/icons.svg';
 
 export const DecorationTab = () => {
   return (
-    <>
-      <div className="bg-[#fafafa] w-[303px] h-[121px] flex-shrink-0 rounded-[20px] flex justify-center items-center gap-[22px]">
+    <div>
+      <div className="bg-[#fafafa] w-[248px] md:w-[303px] h-[81px] md:h-[121px] flex-shrink-0 rounded-[20px] flex justify-center items-center gap-[22px]">
         <div className="w-[43px] h-[43px] flex-shrink-0 bg-springgreen rounded-[13px] flex items-center justify-center">
-          <svg width="15" height="17">
+          <svg className="" width="15" height="17">
             <use href={`${iconSvg}#arrow-up`} />
           </svg>
         </div>
 
         <div className="flex flex-col gap-[7px]">
-          <p className="text-[#11101c80] text-[16px] font-normal">
+          <p className="text-[#11101c80] text-[12px] md:text-[16px] font-normal">
             Your balance
           </p>
           <div className="flex items-center gap-[22px]">
@@ -23,6 +23,6 @@ export const DecorationTab = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
