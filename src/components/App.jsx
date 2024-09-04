@@ -54,45 +54,59 @@ export const App = () => {
   }
 
   return (
-    <div className="flex justify-center p-[20px] md:p-0">
-      <div>
+    <div className="flex justify-center p-[20px] md:p-0 w-full">
+      <div className="w-full">
         <Header />
         <div
           className={`flex ${
             isLoggedIn
-              ? 'justify-center mt-[59px]'
-              : 'flex-col-reverse mt-[74px] justify-center md:gap-[54px] md:max-xl:flex-col-reverse md:max-xl:pb-[36px] xl:flex-row'
+              ? 'flex justify-center mt-[59px]'
+              : 'flex justify-center items-center mt-[60px] md:mt-[74px]'
           }`}
         >
-          {!isLoggedIn && <SharedLayout />}
-
+          {!isLoggedIn}
           <Routes>
             {/* Restricted routes (accessible only when not logged in) */}
             <Route
               path="/"
               element={
-                <RestrictedRoute
-                  component={WelcomePage}
-                  redirectTo="/transactions/expenses"
-                />
+                <div className="flex justify-center flex-col-reverse xl:flex-row gap-[40px] xl:gap-[54px]">
+                  <div>
+                    <SharedLayout />
+                  </div>
+                  <RestrictedRoute
+                    component={WelcomePage}
+                    redirectTo="/transactions/expenses"
+                  />
+                </div>
               }
             />
             <Route
               path="/register"
               element={
-                <RestrictedRoute
-                  component={RegisterPage}
-                  redirectTo="/transactions/expenses"
-                />
+                <div className="flex xl:gap-[54px]">
+                  <div className="hidden xl:block">
+                    <SharedLayout />
+                  </div>
+                  <RestrictedRoute
+                    component={RegisterPage}
+                    redirectTo="/transactions/expenses"
+                  />
+                </div>
               }
             />
             <Route
               path="/login"
               element={
-                <RestrictedRoute
-                  component={LoginPage}
-                  redirectTo="/transactions/expenses"
-                />
+                <div className="flex xl:gap-[54px]">
+                  <div className="hidden xl:block">
+                    <SharedLayout />
+                  </div>
+                  <RestrictedRoute
+                    component={LoginPage}
+                    redirectTo="/transactions/expenses"
+                  />
+                </div>
               }
             />
 

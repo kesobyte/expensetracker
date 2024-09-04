@@ -86,7 +86,7 @@ export const AuthForm = ({
           {fields.map((field, index) => (
             <div key={index} className="relative">
               <input
-                className={`w-[399px] inline-flex py-3 pr-[44px] px-4 items-center gap-[10px] rounded-xl border border-[#fafafa33] bg-transparent text-white text-[16px] leading-[24px] font-normal hover:border-[springgreen] placeholder:text-[#fafafa66] ease-in duration-200 focus:outline-none ${
+                className={`w-full md:w-[399px] inline-flex py-3 pr-[44px] px-4 items-center gap-[10px] rounded-xl border border-[#fafafa33] bg-transparent text-white text-[14px] md:text-[16px] leading-[24px] font-normal hover:border-[springgreen] placeholder:text-[#fafafa66] ease-in duration-200 focus:outline-none ${
                   field.type === 'password'
                     ? isValidPassword === null
                       ? 'focus:border-springgreen'
@@ -110,7 +110,7 @@ export const AuthForm = ({
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute right-[190px] top-1/2 transform -translate-y-1/2"
+                  className="absolute top-[30%] left-[91%] xl:left-[63%]"
                 >
                   {showPassword ? (
                     <svg width="20" height="20">
