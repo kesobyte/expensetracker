@@ -100,7 +100,7 @@ export const TransactionsChart = () => {
   }
 
   return (
-    <div className="flex items-center bg-[#171719] rounded-[30px] px-[40px] gap-[40px] max-w-[630px] max-h-[302px]">
+    <div className="flex flex-col md:flex-row items-center bg-[#171719] rounded-[30px] p-[20px] md:px-[40px] md:gap-[40px] max-w-[630px] md:max-h-[302px]">
       <div className="relative flex flex-col">
         <div>
           <p className="absolute top-[40px] text-[16px] text-[#fafafa80] font-normal">
@@ -113,7 +113,7 @@ export const TransactionsChart = () => {
         </div>
       </div>
 
-      <div className="flex gap-[10px] flex-col max-w-[200px] w-[100%] max-h-[126px] pr-[25px] overflow-y-scroll">
+      <div className="flex gap-[10px] flex-col px-[20px] md:max-w-[200px] w-[100%] max-h-[126px] pr-[25px] overflow-y-scroll">
         {categoryExpenses.map((item, index) => (
           <div key={index} className="flex justify-between items-center">
             <div className="flex items-center">

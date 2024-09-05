@@ -124,8 +124,8 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const currencySymbol = currencySymbols[user.currency] || '$';
 
   return (
-    <div className="relative flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[40px] w-[566px] h-[622px]">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
+    <div className="relative flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[20px] xl:p-[40px] xl:w-[566px] xl:h-[622px] w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] w-full">
         <div className="flex flex-row text-white gap-[20px] items-center">
           <div className="flex items-center group hover:cursor-pointer">
             <input
@@ -165,8 +165,9 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
           </div>
         </div>
 
-        <div className="flex flex-row gap-[20px]">
-          <div className="flex flex-col gap-[8px]">
+        {/* Data & Time */}
+        <div className="flex flex-row gap-[20px] w-full">
+          <div className="flex flex-col gap-[8px] w-1/2">
             <label
               htmlFor="date"
               className="text-white text-[16px] tracking-[-0.32px] font-normal"
@@ -177,18 +178,18 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               <DatePicker
                 selected={currentDate}
                 onChange={date => setCurrentDate(date)}
-                className="py-[12px] pl-[18px] pr-[70px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
+                className="py-[12px] pl-[14px] md:pl-[18px] max-w-[140px] md:max-w-full md:pr-[70px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] text-[14px] md:text-[16px]"
               />
               <svg
                 width={20}
                 height={20}
-                className="absolute top-[15px] left-[85%]"
+                className="absolute top-[12px] md:top-[15px] left-[78%] md:left-[85%]"
               >
                 <use href={`${icon}#calendar-icon`} />
               </svg>
             </div>
           </div>
-          <div className="flex flex-col gap-[8px]">
+          <div className="flex flex-col gap-[8px] w-1/2">
             <label
               htmlFor="time"
               className="text-white text-[16px] tracking-[-0.32px] font-normal"
@@ -199,13 +200,13 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               <input
                 value={currentTime}
                 type="time"
-                className="py-[12px] pl-[18px] pr-[130px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
+                className="py-[12px] pl-[14px] md:pl-[18px] text-[14px] md:text-[16px] max-w-[140px] md:max-w-full md:pr-[70px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
                 onChange={e => setCurrentTime(e.target.value)}
               />
               <svg
                 width={20}
                 height={20}
-                className="absolute top-[15px] left-[85%]"
+                className="absolute top-[12px] md:top-[15px] left-[78%] md:left-[85%]"
               >
                 <use href={`${icon}#clock-icon`} />
               </svg>
@@ -225,7 +226,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               onClick={openCategoryModal}
               type="text"
               value={selectedCategoryName} // Display the category name
-              className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
+              className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] text-[14px] md:text-[16px] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
               placeholder="Select a category"
               readOnly
               disabled={!!transactionData?._id} // Disable if editing
@@ -242,7 +243,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               <input
                 value={sum}
                 type="number"
-                className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
+                className="py-[12px] px-[18px] rounded-[12px] text-[14px] md:text-[16px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full"
                 placeholder="Enter sum"
                 onChange={handleSumChange}
               />
@@ -262,7 +263,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
           </label>
           <textarea
             value={comment}
-            className="py-[12px] px-[18px] rounded-[12px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full h-[90px] resize-none"
+            className="py-[12px] px-[18px] rounded-[12px] text-[14px] md:text-[16px] border-[#fafafa33] border bg-transparent placeholder:text-[#fafafa33] text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] w-full h-[90px] resize-none"
             placeholder="Enter comment"
             onChange={e => setComment(e.target.value)}
           />

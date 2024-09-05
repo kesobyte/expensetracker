@@ -14,18 +14,18 @@ export const MainTransactionsPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex gap-[44px]">
-      <div className="max-w-[630px]">
+    <div className="flex flex-col xl:gap-[44px] xl:flex-row">
+      <div className="xl:max-w-[630px]">
         <div className="flex flex-col gap-[15px]">
-          <h2 className="text-white text-[38px] font-normal tracking-[-0.76px]">
+          <h2 className="text-white text-[32px] md:text-[38px] font-normal tracking-[-0.76px]">
             Expense Log
           </h2>
-          <p className="text-[#fafafa66] text-[16px] font-normal tracking-[-0.32px]">
+          <p className="text-[#fafafa66] text-[14px] md:text-[16px] font-normal tracking-[-0.32px]">
             Capture and organize every penny spent with ease! A clear view of
             your financial habits at your fingertips.
           </p>
         </div>
-        <div className="mt-[40px]">
+        <div className="xl:mt-[40px]">
           <TransactionsTotalAmount />
         </div>
         <div className="mt-[40px]">
@@ -34,7 +34,7 @@ export const MainTransactionsPage = () => {
       </div>
 
       {/* Form */}
-      <div>
+      <div className="mt-[40px] xl:mt-0">
         <TransactionForm type="expenses" /> {/* Defaulting to 'expenses' */}
       </div>
     </div>
