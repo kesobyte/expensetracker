@@ -156,7 +156,7 @@
 </symbol>
 
 <!-- Burger Close -->
-<symbol id="burger-close" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<symbol id="burger-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
   <path d="M2.82219 19.7145L0 16.8053L7.29734 9.86575L0.288389 2.6407L3.06525 0L10.0742 7.22505L17.1778 0.469767L20 3.37897L12.8964 10.1343L19.9053 17.3593L17.1285 20L10.1195 12.775L2.82219 19.7145Z" fill="#0C0D0D"/>
 </symbol>
 
