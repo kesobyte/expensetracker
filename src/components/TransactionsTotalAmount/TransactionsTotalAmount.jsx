@@ -45,10 +45,10 @@ export const TransactionsTotalAmount = () => {
   }
 
   return (
-    <div className="flex flex-col gap-[12px] md:gap-[24px] md:flex-row">
-      <div className="bg-[#171719] w-[303px] h-[121px] flex-shrink-0 rounded-[30px] flex items-center gap-[22px]">
+    <div className="flex flex-col gap-[12px] md:gap-[24px] md:flex-row w-full">
+      <div className="bg-[#171719] w-full md:w-[48%] xl:w-[303px] py-[20px] md:py-[32px] flex-shrink-0 rounded-[20px] md:rounded-[30px] flex items-center gap-[22px]">
         <div className="ml-[23px] w-[43px] h-[43px] flex-shrink-0 bg-springgreen rounded-[13px] flex items-center justify-center">
-          <svg width="15" height="17">
+          <svg width="15" height="15">
             <use href={`${iconSvg}#arrow-down`} />
           </svg>
         </div>
@@ -63,9 +63,9 @@ export const TransactionsTotalAmount = () => {
         </div>
       </div>
 
-      <div className="bg-[#171719] w-[303px] h-[121px] flex-shrink-0 rounded-[30px] flex items-center gap-[22px]">
+      <div className="bg-[#171719] w-full md:w-[48%] xl:w-[303px] py-[20px] md:py-[32px] flex-shrink-0 rounded-[20px] md:rounded-[30px] flex items-center gap-[22px]">
         <div className="ml-[23px] w-[43px] h-[43px] flex-shrink-0 bg-springgreen rounded-[13px] flex items-center justify-center">
-          <svg width="15" height="17">
+          <svg width="15" height="15">
             <use href={`${iconSvg}#arrow-up`} />
           </svg>
         </div>

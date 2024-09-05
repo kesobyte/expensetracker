@@ -43,7 +43,7 @@ export const TransactionSearchTool = () => {
   }, [selectedDate]);
 
   return (
-    <div className="flex flex-row items-center gap-[20px]">
+    <div className="flex flex-col md:flex-row items-center gap-[20px] w-full">
       <form onSubmit={e => e.preventDefault()} className="relative">
         <label className="w-full inline-flex items-center">
           <DebounceInput

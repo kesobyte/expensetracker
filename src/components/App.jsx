@@ -54,7 +54,7 @@ export const App = () => {
   }
 
   return (
-    <div className="flex justify-center p-[20px] md:p-0 w-full">
+    <div className="flex justify-center w-full px-[20px] pb-[20px] xl:p-0">
       <div className="w-full">
         <Header />
         <div

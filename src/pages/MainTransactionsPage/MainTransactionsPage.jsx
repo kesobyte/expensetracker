@@ -15,17 +15,17 @@ export const MainTransactionsPage = () => {
 
   return (
     <div className="flex flex-col xl:gap-[44px] xl:flex-row">
-      <div className="xl:max-w-[630px]">
+      <div className="xl:flex xl:flex-col xl:justify-between xl:max-w-[630px]">
         <div className="flex flex-col gap-[15px]">
           <h2 className="text-white text-[32px] md:text-[38px] font-normal tracking-[-0.76px]">
             Expense Log
           </h2>
-          <p className="text-[#fafafa66] text-[14px] md:text-[16px] font-normal tracking-[-0.32px]">
+          <p className="text-[#fafafa66] md:w-[500px] text-[14px] md:text-[16px] font-normal tracking-[-0.32px]">
             Capture and organize every penny spent with ease! A clear view of
             your financial habits at your fingertips.
           </p>
         </div>
-        <div className="xl:mt-[40px]">
+        <div className="mt-[40px]">
           <TransactionsTotalAmount />
         </div>
         <div className="mt-[40px]">

@@ -11,16 +11,13 @@ export const Header = () => {
   return (
     <div
       className={`${
-        isLoggedIn
-          ? 'border-b-[1px] border-[#fafafa1a] px-[20px] md:px-[32px] xl:px-0'
-          : ''
+        isLoggedIn ? 'border-b-[1px] border-[#fafafa1a]' : ''
       } w-full`}
     >
       {isLoggedIn ? (
-        <div className="max-w-[1240px] mx-auto flex items-center justify-between py-[18px]">
-          <div>
-            <Logo />
-          </div>
+        <div className="max-w-[1240px] flex items-center justify-between py-[18px] mx-auto md:px-[32px] xl:px-0">
+          <Logo />
+
           <div className="xl:hidden">
             <BurgerMenuBtn />
           </div>
@@ -32,7 +29,7 @@ export const Header = () => {
           </div>
         </div>
       ) : (
-        <div className="w-full mx-auto flex items-center justify-center md:mt-[32px]">
+        <div className="w-full mx-auto flex items-center justify-center mt-[20px] md:mt-[32px]">
           <Logo />
         </div>
       )}

@@ -85,6 +85,8 @@ export const TransactionsChart = () => {
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     rotation: -90,
     circumference: 180,
     cutout: '67%',
@@ -100,15 +102,17 @@ export const TransactionsChart = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center bg-[#171719] rounded-[30px] p-[20px] md:px-[40px] md:gap-[40px] max-w-[630px] md:max-h-[302px]">
+    <div className="flex flex-col md:flex-row items-center bg-[#171719] rounded-[30px] p-[20px] md:px-[40px] md:gap-[95px] xl:gap-[40px] xl:max-w-[630px] md:max-h-[302px] w-full">
       <div className="relative flex flex-col">
         <div>
-          <p className="absolute top-[40px] text-[16px] text-[#fafafa80] font-normal">
+          <p className="absolute top-[10px] md:top-[40px] text-[16px] text-[#fafafa80] font-normal">
             Expenses Category
           </p>
         </div>
-        <Doughnut data={data} options={options} />
-        <div className="absolute bottom-[40px] left-[120px] text-white text-[24px] font-bold">
+        <div className="w-[100%] h-[250px] md:h-[320px]">
+          <Doughnut data={data} options={options} />
+        </div>
+        <div className="absolute bottom-[15px] md:bottom-[40px] left-[120px] text-white text-[24px] font-bold">
           100%
         </div>
       </div>

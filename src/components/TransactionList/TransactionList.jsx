@@ -135,7 +135,7 @@ export const TransactionList = ({ transactionsType }) => {
   });
 
   return (
-    <div>
+    <div className="">
       <div className="flex justify-between items-center bg-[#00000033] px-[40px] py-[20px] leading-none text-[16px] text-[#fafafa66] h-full">
         <div className="w-[15%]">Category</div>
         <div className="w-[25%]">Comment</div>

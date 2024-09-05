@@ -13,10 +13,10 @@ export const BurgerMenu = ({ onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-[#0c0d0d99] z-50 cursor-auto animate-fadeIn"
+      className="fixed inset-0 flex justify-end bg-[#0c0d0d99] overflow-hidden z-50 cursor-auto"
       onClick={handleBackdropClick} // Close side on backdrop click
     >
-      <div className="bg-springgreen p-[20px] h-full w-full">
+      <div className="bg-springgreen p-[20px] h-full w-full md:w-1/2 animate-slideIn">
         <div className="flex items-center justify-between">
           <UserBarBtn />
           <svg width={20} height={20}>
@@ -24,8 +24,8 @@ export const BurgerMenu = ({ onClose }) => {
           </svg>
         </div>
 
-        <div>
-          <TransactionsHistoryNav />
+        <div className="flex items-center justify-center h-[70vh]">
+          <TransactionsHistoryNav onClose={onClose} />
         </div>
       </div>
     </div>

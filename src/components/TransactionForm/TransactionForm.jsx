@@ -124,8 +124,8 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
   const currencySymbol = currencySymbols[user.currency] || '$';
 
   return (
-    <div className="relative flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[20px] xl:p-[40px] xl:w-[566px] xl:h-[622px] w-full">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] w-full">
+    <div className="relative flex flex-col gap-[20px] bg-[#171719] rounded-[30px] p-[20px] md:px-[80px] md:py-[40px] xl:p-[40px] xl:w-[566px] xl:h-[622px]">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
         <div className="flex flex-row text-white gap-[20px] items-center">
           <div className="flex items-center group hover:cursor-pointer">
             <input
@@ -167,6 +167,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
 
         {/* Data & Time */}
         <div className="flex flex-row gap-[20px] w-full">
+          {/* Date Input */}
           <div className="flex flex-col gap-[8px] w-1/2">
             <label
               htmlFor="date"
@@ -174,21 +175,23 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
             >
               Date
             </label>
-            <div className="relative">
+            <div className="relative w-full">
               <DatePicker
                 selected={currentDate}
                 onChange={date => setCurrentDate(date)}
-                className="py-[12px] pl-[14px] md:pl-[18px] max-w-[140px] md:max-w-full md:pr-[70px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] text-[14px] md:text-[16px]"
+                className="py-[12px] pl-[14px] w-full pr-[3rem] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] text-[14px] md:text-[16px]"
+                wrapperClassName="w-full"
               />
               <svg
                 width={20}
                 height={20}
-                className="absolute top-[12px] md:top-[15px] left-[78%] md:left-[85%]"
+                className="absolute top-[50%] transform -translate-y-1/2 right-[14px]"
               >
                 <use href={`${icon}#calendar-icon`} />
               </svg>
             </div>
           </div>
+          {/* Time Input */}
           <div className="flex flex-col gap-[8px] w-1/2">
             <label
               htmlFor="time"
@@ -200,13 +203,13 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
               <input
                 value={currentTime}
                 type="time"
-                className="py-[12px] pl-[14px] md:pl-[18px] text-[14px] md:text-[16px] max-w-[140px] md:max-w-full md:pr-[70px] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen]"
+                className="py-[12px] pl-[14px] w-full pr-[3rem] rounded-[12px] border-[#fafafa33] border bg-transparent text-white hover:border-[springgreen] ease-in duration-200 focus:outline-none focus:border-[springgreen] text-[14px] md:text-[16px]"
                 onChange={e => setCurrentTime(e.target.value)}
               />
               <svg
                 width={20}
                 height={20}
-                className="absolute top-[12px] md:top-[15px] left-[78%] md:left-[85%]"
+                className="absolute top-[50%] transform -translate-y-1/2 right-[14px]"
               >
                 <use href={`${icon}#clock-icon`} />
               </svg>
@@ -247,7 +250,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
                 placeholder="Enter sum"
                 onChange={handleSumChange}
               />
-              <span className="absolute top-[15px] left-[90%] text-[16px] text-[#fafafa33]">
+              <span className="absolute top-[50%] transform -translate-y-1/2 right-[14px] text-[16px] text-[#fafafa33]">
                 {currencySymbol}
               </span>
             </div>
@@ -269,20 +272,22 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
           />
         </div>
 
-        <button
-          type="submit"
-          className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen max-w-[25%] h-[47px] font-normal leading-none"
-        >
-          {isLoading ? (
-            <div className="max-h-[122px] leading-none">
-              <ButtonLoader />
-            </div>
-          ) : transactionData ? (
-            'Save'
-          ) : (
-            'Add'
-          )}
-        </button>
+        <div>
+          <button
+            type="submit"
+            className="flex py-[14px] px-[44px] justify-center items-center rounded-[40px] bg-[springgreen] hover:bg-mediumseagreen h-[47px] w-[115px] font-normal leading-none"
+          >
+            {isLoading ? (
+              <div className="leading-none">
+                <ButtonLoader />
+              </div>
+            ) : transactionData ? (
+              'Save'
+            ) : (
+              'Add'
+            )}
+          </button>
+        </div>
       </form>
 
       {isModalOpen && (

@@ -137,7 +137,7 @@ export const UserSetsModal = ({ onClose }) => {
   return (
     // Backdrop
     <div
-      className="fixed inset-0 flex items-center justify-center bg-[#0c0d0d99] z-50 cursor-auto animate-fadeIn"
+      className="fixed inset-0 flex items-center justify-center bg-[#0c0d0d99] z-50 cursor-auto animate-fadeIn p-[20px] md:p-0"
       onClick={handleBackdropClick} // Close modal on backdrop click
     >
       {/* Modal */}
