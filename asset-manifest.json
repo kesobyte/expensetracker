@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/expensetracker/static/css/main.6744971b.css",
+    "main.css": "/expensetracker/static/css/main.0cd84ed2.css",
     "main.js": "/expensetracker/static/js/main.5b184605.js",
     "static/media/hero-img.png": "/expensetracker/static/media/hero-img.f693aed93f49c8b068ed.png",
     "static/media/fleur-cook.png": "/expensetracker/static/media/fleur-cook.a4f09884bcbd2793d162.png",
@@ -8,11 +8,11 @@
     "static/media/amanda-lowery.png": "/expensetracker/static/media/amanda-lowery.cdd2badfb8227540f9d4.png",
     "static/media/icons.svg": "/expensetracker/static/media/icons.123659b6493b4547477c17cce9bca01e.svg",
     "index.html": "/expensetracker/index.html",
-    "main.6744971b.css.map": "/expensetracker/static/css/main.6744971b.css.map",
+    "main.0cd84ed2.css.map": "/expensetracker/static/css/main.0cd84ed2.css.map",
     "main.5b184605.js.map": "/expensetracker/static/js/main.5b184605.js.map"
   },
   "entrypoints": [
-    "static/css/main.6744971b.css",
+    "static/css/main.0cd84ed2.css",
     "static/js/main.5b184605.js"
   ]
 }
