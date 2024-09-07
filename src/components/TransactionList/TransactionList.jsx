@@ -169,19 +169,19 @@ export const TransactionList = ({ transactionsType }) => {
                 key={transaction._id}
                 className="text-white text-[14px] md:text-[18px]"
               >
-                <td className="p-[10px] xl:p-[20px] md:w-[15%]">
+                <td className="p-[10px] xl:p-[20px] md:w-[15%] truncate max-w-[10px]">
                   {transaction.category.categoryName}
                 </td>
-                <td className="p-[2px] xl:p-[20px] md:w-[25%]">
+                <td className="p-[2px] xl:p-[20px] md:w-[25%] truncate max-w-[10px]">
                   {transaction.comment}
                 </td>
-                <td className="p-[10px] xl:p-[20px] md:w-[15%]">
+                <td className="p-[10px] xl:p-[20px] md:w-[15%] truncate max-w-[10px]">
                   {transaction.date}
                 </td>
-                <td className="p-[10px] xl:p-[20px] md:w-[10%]">
+                <td className="p-[10px] xl:p-[20px] md:w-[10%] truncate">
                   {transaction.time}
                 </td>
-                <td className="text-nowrap p-[10px] xl:p-[20px] md:w-[12%]">
+                <td className="text-nowrap p-[10px] xl:p-[20px] md:w-[12%] truncate max-w-[10px]">
                   {convertSum(transaction.sum)
                     .toFixed(0)
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
@@ -189,7 +189,7 @@ export const TransactionList = ({ transactionsType }) => {
                 </td>
                 <td className="p-[10px] xl:p-[20px] flex w-full gap-[10px]">
                   <button
-                    className="flex xl:gap-[10px] bg-[springgreen] text-black text-[12px] md:text-[16px] rounded-full p-[14px] xl:px-[30px] xl:py-[14px] leading-none hover:bg-[mediumseagreen]"
+                    className="flex xl:gap-[10px] bg-[springgreen] text-black text-[12px] md:text-[16px] rounded-full p-[8px] md:p-[14px] xl:px-[30px] xl:py-[14px] leading-none hover:bg-[mediumseagreen]"
                     onClick={() => handleEditClick(transaction)}
                   >
                     <svg height={16} width={16}>
@@ -198,7 +198,7 @@ export const TransactionList = ({ transactionsType }) => {
                     <span className="sr-only xl:not-sr-only">Edit</span>
                   </button>
                   <button
-                    className="flex xl:gap-[10px] bg-[black] text-white text-[12px] md:text-[16px] rounded-full p-[14px] xl:px-[30px] xl:py-[14px] leading-none hover:text-[#fafafa66]"
+                    className="flex xl:gap-[10px] bg-[black] text-white text-[12px] md:text-[16px] rounded-full p-[8px] md:p-[14px] xl:px-[30px] xl:py-[14px] leading-none hover:text-[#fafafa66]"
                     onClick={() => handleDeleteClick(transaction._id)}
                   >
                     <svg
