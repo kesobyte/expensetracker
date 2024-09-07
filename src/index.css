@@ -56,12 +56,13 @@ img {
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;
-  height: 0;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background-color: springgreen;
+  /* background-color: springgreen; */
+  background-color: rgba(250, 250, 250, 0.2);
 }
 
 ::-webkit-scrollbar-track {

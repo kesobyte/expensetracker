@@ -3,7 +3,7 @@ import React from 'react';
 
 export const SharedLayout = () => {
   return (
-    <div>
+    <div className="px-[20px] md:px-0">
       <BgImageWrapper />
     </div>
   );

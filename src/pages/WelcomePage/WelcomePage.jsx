@@ -4,7 +4,7 @@ import { AllUsersTab } from 'components/AllUsersTab/AllUsersTab';
 
 export const WelcomePage = () => {
   return (
-    <div className="max-w-[575px] flex justify-between flex-col">
+    <div className="max-w-[575px] flex justify-between flex-col px-[20px] md:p-0">
       <div>
         <p className="text-[#fafafa66] text-[14px] font-normal tracking-[2.8px] leading-none">
           EXPENSE LOG

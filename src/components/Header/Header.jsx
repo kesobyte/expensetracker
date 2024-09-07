@@ -15,7 +15,7 @@ export const Header = () => {
       } w-full`}
     >
       {isLoggedIn ? (
-        <div className="max-w-[1240px] flex items-center justify-between py-[18px] mx-auto md:px-[32px] xl:px-0">
+        <div className="max-w-[1240px] flex items-center justify-between py-[18px] mx-auto px-[20px] md:px-[32px] xl:px-0">
           <Logo />
 
           <div className="xl:hidden">

@@ -45,9 +45,9 @@ export const TransactionSearchTool = () => {
   return (
     <div className="flex flex-col md:flex-row items-center gap-[20px] w-full">
       <form onSubmit={e => e.preventDefault()} className="relative">
-        <label className="w-full inline-flex items-center">
+        <label className="inline-flex items-center">
           <DebounceInput
-            className="w-[254px] px-[30px] py-[15px] leading-none rounded-full bg-[--black] text-white font-normal placeholder:text-[#fafafa66] outline-none"
+            className="w-[18rem] md:w-[254px] px-[30px] py-[15px] leading-none rounded-full bg-[--black] text-white font-normal placeholder:text-[#fafafa66] outline-none"
             placeholder="Search for anything.."
             type="text"
             value={tempFilter}
@@ -67,7 +67,7 @@ export const TransactionSearchTool = () => {
           onChange={handleDateChange}
           dateFormat="dd/MM/yyyy"
           placeholderText="dd/mm/yyyy"
-          className="w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-[#fafafa33] bg-transparent text-white font-normal placeholder:text-[#fafafa66] outline-none transition-colors duration-250 ease-in-out focus:border-[springgreen] hover:border-[springgreen]"
+          className="w-[18rem] md:w-[200px] px-[30px] py-[15px] leading-none rounded-full border border-[#fafafa33] bg-transparent text-white font-normal placeholder:text-[#fafafa66] outline-none transition-colors duration-250 ease-in-out focus:border-[springgreen] hover:border-[springgreen]"
         />
         <svg
           className="absolute top-4 right-6 stroke-current text-green-400"

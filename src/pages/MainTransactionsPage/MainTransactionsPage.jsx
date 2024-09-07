@@ -14,7 +14,7 @@ export const MainTransactionsPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col xl:gap-[44px] xl:flex-row">
+    <div className="flex flex-col xl:gap-[44px] xl:flex-row px-[20px] pb-[40px]">
       <div className="xl:flex xl:flex-col xl:justify-between xl:max-w-[630px]">
         <div className="flex flex-col gap-[15px]">
           <h2 className="text-white text-[32px] md:text-[38px] font-normal tracking-[-0.76px]">
