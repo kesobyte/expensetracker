@@ -115,9 +115,9 @@ export const TransactionList = ({ transactionsType }) => {
   });
 
   return (
-    <div className="w-full max-h-[400px] overflow-auto">
+    <div className="w-full max-h-[400px] overflow-x-auto">
       {/* Table structure */}
-      <table className="bg-[#171719]">
+      <table className="bg-[#171719] w-full">
         <thead className="bg-[#00000033]">
           <tr className="text-[#fafafa66] text-left text-[12px] md:text-[16px]">
             <th className="p-[10px] xl:p-[20px] md:w-[15%] font-normal">
