@@ -8,7 +8,7 @@ export const LoginPage = () => {
   ];
 
   return (
-    <div className="flex flex-col justify-center md:max-w-[399px] xl:min-w-[575px] w-full">
+    <div className="flex flex-col justify-center md:max-w-[399px] xl:min-w-[575px] w-full px-[20px] md:px-0">
       <div>
         <h3 className="text-white text-[32px] md:text-[56px] font-normal tracking-[-1.12px] leading-none">
           Sign In

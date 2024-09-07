@@ -279,7 +279,7 @@ export const TransactionForm = ({ transactionData, onSubmit, type }) => {
           >
             {isLoading ? (
               <div className="leading-none">
-                <ButtonLoader />
+                <ButtonLoader color="#000" />
               </div>
             ) : transactionData ? (
               'Save'

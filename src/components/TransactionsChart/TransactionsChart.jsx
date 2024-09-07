@@ -97,25 +97,29 @@ export const TransactionsChart = () => {
     },
   };
 
-  if (categoryExpenses.length === 0) {
-    return <p className="text-white">No data available for the chart.</p>;
-  }
+  const chartStatus = categoryExpenses.length === 0;
 
   return (
-    <div className="flex flex-col md:flex-row items-center bg-[#171719] rounded-[30px] p-[20px] md:px-[40px] md:gap-[95px] xl:gap-[40px] xl:max-w-[630px] md:max-h-[302px] w-full">
-      <div className="relative flex flex-col">
-        <div>
-          <p className="absolute top-[10px] md:top-[40px] text-[16px] text-[#fafafa80] font-normal">
-            Expenses Category
-          </p>
+    <div className="flex flex-col md:flex-row items-center bg-[#171719] rounded-[30px] p-[20px] md:px-[40px] md:gap-[80px] xl:gap-[40px] xl:max-w-[630px] md:max-h-[302px] w-full">
+      {chartStatus ? (
+        <div className="min-w-full h-[250px] flex flex-col justify-center items-center">
+          <p className="text-white">No expense record yet 👋</p>
         </div>
-        <div className="w-[100%] h-[250px] md:h-[320px]">
-          <Doughnut data={data} options={options} />
+      ) : (
+        <div className="relative flex flex-col">
+          <div>
+            <p className="absolute top-[10px] md:top-[40px] text-[16px] text-[#fafafa80] font-normal">
+              Expenses Category
+            </p>
+          </div>
+          <div className="w-[100%] h-[250px] md:h-[320px]">
+            <Doughnut data={data} options={options} />
+          </div>
+          <div className="absolute bottom-[15px] md:bottom-[40px] left-[120px] text-white text-[24px] font-bold">
+            100%
+          </div>
         </div>
-        <div className="absolute bottom-[15px] md:bottom-[40px] left-[120px] text-white text-[24px] font-bold">
-          100%
-        </div>
-      </div>
+      )}
 
       <div className="flex gap-[10px] flex-col px-[20px] md:max-w-[200px] w-[100%] max-h-[126px] pr-[25px] overflow-y-scroll">
         {categoryExpenses.map((item, index) => (

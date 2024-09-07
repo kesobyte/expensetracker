@@ -9,7 +9,7 @@ import {
   selectTransactions,
   selectLoading,
 } from '../../redux/transaction/selectors';
-import { Loader } from 'components/Loader/Loader';
+import { ButtonLoader } from 'components/ButtonLoader/ButtonLoader';
 import { selectFilter, selectStartDate } from '../../redux/filter/selectors';
 import { selectUser } from '../../redux/user/selectors';
 import { fetchExchangeRates } from '../../redux/exchangeRate/exchangeRateOperation';
@@ -142,25 +142,51 @@ export const TransactionList = ({ transactionsType }) => {
         <tbody>
           {loading && (
             <tr>
-              <td colSpan={6} className="flex justify-center">
-                <Loader />
+              <td
+                colSpan={6}
+                className="text-center text-white w-full pt-[40px] pb-[20px]"
+              >
+                <div className="flex items-center justify-center">
+                  <ButtonLoader color="#fff" />
+                </div>
               </td>
             </tr>
           )}
+
           {!loading && exchangeRatesStatus === 'loading' && (
             <tr>
-              <td colSpan={6} className="flex justify-center">
+              <td
+                colSpan={6}
+                className="text-center text-white w-full pt-[40px] pb-[20px]"
+              >
                 Loading exchange rates...
               </td>
             </tr>
           )}
+
           {!loading && exchangeRatesStatus === 'failed' && (
             <tr>
-              <td colSpan={6} className="flex justify-center">
+              <td
+                colSpan={6}
+                className="text-center text-white w-full pt-[40px] pb-[20px]"
+              >
                 Failed to load exchange rates. Please try again later.
               </td>
             </tr>
           )}
+
+          {!loading &&
+            exchangeRatesStatus === 'succeeded' &&
+            filteredTransactions.length === 0 && (
+              <tr>
+                <td
+                  colSpan={6}
+                  className="text-center text-white w-full pt-[40px] pb-[20px]"
+                >
+                  No record yet
+                </td>
+              </tr>
+            )}
 
           {!loading &&
             exchangeRatesStatus === 'succeeded' &&
@@ -219,7 +245,7 @@ export const TransactionList = ({ transactionsType }) => {
       {/* Modal for Editing Transactions */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-[#0c0d0d99] flex items-center justify-center"
+          className="fixed inset-0 bg-[#0c0d0d99] flex items-center justify-center px-[20px] md:px-0"
           onClick={handleBackdropClick}
         >
           <TransactionForm

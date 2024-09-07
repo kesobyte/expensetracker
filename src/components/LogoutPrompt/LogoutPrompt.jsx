@@ -39,7 +39,7 @@ export default function LogoutPrompt({ onClose }) {
             disabled={isLoading}
             className="flex justify-center items-center bg-[springgreen] text-black py-[14px] px-[44px] rounded-[40px] hover:bg-[--mediumseagreen]"
           >
-            {isLoading ? <ButtonLoader /> : 'Logout'}
+            {isLoading ? <ButtonLoader color="#000" /> : 'Logout'}
           </button>
           <button
             onClick={onClose}

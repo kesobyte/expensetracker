@@ -147,7 +147,7 @@ export const AuthForm = ({
           type="submit"
           className="flex justify-center items-center gap-[10px] px-[44px] py-[14px] rounded-[40px] bg-springgreen text-black text-[16px] font-normal tracking-[-0.32px] hover:bg-mediumseagreen mt-[60px] ease-in duration-200 max-w-[145px] w-[100%] max-h-[47px]"
         >
-          {isLoading ? <ButtonLoader /> : buttonText}
+          {isLoading ? <ButtonLoader color="#000" /> : buttonText}
         </button>
         <div className="text-[12px] font-normal leading-[-18px] mt-[20px]">
           <p className="text-[#fafafa60]">

@@ -248,7 +248,7 @@ export const UserSetsModal = ({ onClose }) => {
             disabled={isLoading}
             className="flex w-full h-[47px] justify-center items-center bg-[springgreen] text-black py-[10px] rounded-[40px] mt-[20px]"
           >
-            {isLoading ? <ButtonLoader /> : 'Save'}
+            {isLoading ? <ButtonLoader color="#000" /> : 'Save'}
           </button>
         </form>
       </div>
